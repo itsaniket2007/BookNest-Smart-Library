@@ -13,78 +13,143 @@
 
     <div class="app">
 
-        <!-- SIDEBAR -->
+        <!-- ================= SIDEBAR ================= -->
+
         <aside class="sidebar">
 
             <div class="logo">
-                📖 <span>BookNest</span>
+                <span class="logo-icon">📖</span>
+                <span>BookNest</span>
             </div>
 
             <nav>
 
                 <a href="#" class="active">
-                    🏠 <span>Home</span>
+                    <span>🏠</span>
+                    <span>Home</span>
                 </a>
 
                 <a href="#">
-                    ▦ <span>Browse Books</span>
+                    <span>▦</span>
+                    <span>Browse Books</span>
                 </a>
 
                 <a href="#">
-                    ◈ <span>Categories</span>
+                    <span>◈</span>
+                    <span>Categories</span>
                 </a>
 
                 <a href="#">
-                    📖 <span>Read Books</span>
+                    <span>📖</span>
+                    <span>Read Books</span>
                 </a>
 
                 <a href="#">
-                    📕 <span>Borrow Books</span>
+                    <span>📕</span>
+                    <span>Borrow Books</span>
                 </a>
 
                 <a href="#">
-                    🛒 <span>Buy Books</span>
+                    <span>🛒</span>
+                    <span>Buy Books</span>
                 </a>
 
                 <hr>
 
                 <a href="#">
-                    ◉ <span>My Dashboard</span>
+                    <span>◉</span>
+                    <span>My Dashboard</span>
                 </a>
 
                 <a href="#">
-                    📚 <span>My Library</span>
+                    <span>📚</span>
+                    <span>My Library</span>
                 </a>
 
                 <a href="#">
-                    ⚙ <span>Settings</span>
+                    <span>⚙</span>
+                    <span>Settings</span>
                 </a>
 
                 <a href="#">
-                    ❓ <span>Help & Support</span>
+                    <span>❓</span>
+                    <span>Help & Support</span>
                 </a>
 
             </nav>
 
+            <!-- READING CHALLENGE -->
+
+            <div class="challenge-card">
+
+                <div class="challenge-title">
+                    📚 Reading Challenge
+                </div>
+
+                <p>Read 5 books this month</p>
+
+                <div class="challenge-progress">
+                    <div class="progress-fill"></div>
+                </div>
+
+                <div class="challenge-bottom">
+                    <span>3 / 5</span>
+                </div>
+
+                <button>
+                    View Challenge
+                </button>
+
+            </div>
+
+            <div class="logout">
+                <a href="#">
+                    <span>↪</span>
+                    <span>Logout</span>
+                </a>
+            </div>
+
         </aside>
 
 
-        <!-- MAIN AREA -->
+        <!-- ================= MAIN ================= -->
+
         <main>
 
-            <!-- TOP NAVBAR -->
+            <!-- TOPBAR -->
+
             <header class="topbar">
 
-                <button class="menu">☰</button>
+                <button class="menu">
+                    ☰
+                </button>
 
                 <div class="search">
+
                     <input
                         type="text"
                         placeholder="Search books by title, author, category..."
                     >
 
                     <span>⌕</span>
+
                 </div>
+
+                <div class="top-icons">
+
+                    <span class="top-icon">
+                        🛒
+                        <small>3</small>
+                    </span>
+
+                    <span class="top-icon">
+                        🔔
+                    </span>
+
+                </div>
+
+
+                <!-- PROFILE -->
 
                 <div class="profile">
 
@@ -97,11 +162,182 @@
                         <small>Premium Member</small>
                     </div>
 
-                    <span>⌄</span>
+                    <span class="profile-arrow">
+                        ⌄
+                    </span>
 
                 </div>
 
             </header>
+
+
+            <!-- ================= CONTENT ================= -->
+
+            <div class="content">
+
+
+                <!-- HERO -->
+
+                <section class="hero">
+
+                    <div class="hero-content">
+
+                        <p class="hero-small">
+                            WELCOME TO BOOKNEST
+                        </p>
+
+                        <h1>
+                            Read. Learn. Grow.
+                        </h1>
+
+                        <h2>
+                            Your journey to knowledge starts here.
+                        </h2>
+
+                        <p class="hero-description">
+                            Read, borrow or buy books across
+                            multiple categories — all in one place.
+                        </p>
+
+                        <div class="hero-buttons">
+
+                            <button class="primary-btn">
+                                Explore Books
+                            </button>
+
+                            <button class="secondary-btn">
+                                How It Works
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- HERO VISUAL -->
+
+                    <div class="hero-visual">
+
+                        <div class="book-stack">
+
+                            <div class="book book-one">
+                                📘
+                            </div>
+
+                            <div class="book book-two">
+                                📕
+                            </div>
+
+                            <div class="book book-three">
+                                📗
+                            </div>
+
+                            <div class="book book-four">
+                                📙
+                            </div>
+
+                        </div>
+
+                        <div class="reading-person">
+                            👩🏻‍💻
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- QUICK ACTIONS -->
+
+                <section class="actions">
+
+                    <!-- READ -->
+
+                    <div class="action-card read-card">
+
+                        <div class="action-icon">
+                            📖
+                        </div>
+
+                        <div class="action-text">
+
+                            <h3>
+                                Read Books
+                            </h3>
+
+                            <p>
+                                Read digital books
+                                instantly online.
+                            </p>
+
+                        </div>
+
+                        <span class="action-arrow">
+                            →
+                        </span>
+
+                    </div>
+
+
+                    <!-- BORROW -->
+
+                    <div class="action-card borrow-card">
+
+                        <div class="action-icon">
+                            📚
+                        </div>
+
+                        <div class="action-text">
+
+                            <h3>
+                                Borrow Books
+                            </h3>
+
+                            <p>
+                                Borrow physical books
+                                from our library.
+                            </p>
+
+                        </div>
+
+                        <span class="action-arrow">
+                            →
+                        </span>
+
+                    </div>
+
+
+                    <!-- BUY -->
+
+                    <div class="action-card buy-card">
+
+                        <div class="action-icon">
+                            🛒
+                        </div>
+
+                        <div class="action-text">
+
+                            <h3>
+                                Buy Books
+                            </h3>
+
+                            <p>
+                                Buy your favourite books
+                                at great prices.
+                            </p>
+
+                        </div>
+
+                        <span class="action-arrow">
+                            →
+                        </span>
+
+                    </div>
+
+                </section>
+
+
+            </div>
 
         </main>
 
