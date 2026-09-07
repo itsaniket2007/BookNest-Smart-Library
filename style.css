@@ -184,37 +184,3 @@ main {
 
     gap: 9px;
 }
-
-.avatar {
-    width: 34px;
-    height: 34px;
-
-    border-radius: 50%;
-
-    background: #6546e8;
-
-    color: white;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-size: 11px;
-    font-weight: bold;
-}
-
-.profile strong {
-    display: block;
-
-    font-size: 11px;
-}
-
-.profile small {
-    display: block;
-
-    margin-top: 3px;
-
-    font-size: 9px;
-
-    color: #88889a;
-}
