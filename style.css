@@ -1,8 +1,17 @@
+/* =========================
+   RESET
+========================= */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+
+
+/* =========================
+   BODY
+========================= */
 
 body {
     font-family: Arial, sans-serif;
@@ -10,36 +19,62 @@ body {
     color: #29293d;
 }
 
+
+/* =========================
+   APP
+========================= */
+
 .app {
     display: flex;
     min-height: 100vh;
 }
 
+
+/* =========================
+   SIDEBAR
+========================= */
+
 .sidebar {
-    width: 190px;
+    width: 220px;
     min-height: 100vh;
 
     background: white;
 
     border-right: 1px solid #e7e7ee;
 
-    padding: 22px 12px;
+    padding: 22px 16px;
+
+    display: flex;
+    flex-direction: column;
 }
+
+
+/* =========================
+   LOGO
+========================= */
 
 .logo {
     display: flex;
     align-items: center;
 
-    gap: 8px;
+    gap: 9px;
 
-    font-size: 19px;
+    font-size: 22px;
     font-weight: bold;
 
-    padding: 0 12px 25px;
+    color: #17172f;
+
+    padding: 0 12px 28px;
+}
+
+.logo-icon {
+    font-size: 25px;
 }
 
 
-/* NAVIGATION */
+/* =========================
+   NAVIGATION
+========================= */
 
 nav {
     display: flex;
@@ -54,22 +89,27 @@ nav a {
 
     gap: 12px;
 
-    padding: 10px 13px;
+    padding: 12px 13px;
 
-    border-radius: 7px;
+    border-radius: 9px;
 
     text-decoration: none;
 
     color: #45455b;
 
-    font-size: 12px;
+    font-size: 13px;
+
+    transition: 0.2s;
 }
+
 nav a:hover {
     background: #f1efff;
+    color: #6046e8;
 }
 
 nav a.active {
     background: #e8e2ff;
+
     color: #6046e8;
 
     font-weight: bold;
@@ -80,53 +120,204 @@ nav hr {
 
     border-top: 1px solid #eeeeee;
 
-    margin: 10px 5px;
+    margin: 12px 5px;
 }
 
+
+/* =========================
+   LOGOUT
+========================= */
+
+.logout {
+    margin-top: auto;
+}
+
+.logout a {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 12px;
+
+    text-decoration: none;
+
+    color: #ed4141;
+
+    font-size: 13px;
+
+    border-radius: 9px;
+}
+
+.logout a:hover {
+    background: #fff0f0;
+}
+
+
+/* =========================
+   READING CHALLENGE
+========================= */
+
+.challenge-card {
+    margin-top: 25px;
+
+    padding: 18px;
+
+    border-radius: 16px;
+
+    background: linear-gradient(
+        135deg,
+        #6546e8,
+        #7b5cf1
+    );
+
+    color: white;
+
+    box-shadow: 0 10px 25px rgba(95, 65, 220, 0.2);
+}
+
+.challenge-title {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.challenge-card p {
+    font-size: 10px;
+
+    margin-top: 9px;
+
+    opacity: 0.9;
+}
+
+.challenge-progress {
+    width: 100%;
+
+    height: 6px;
+
+    background: rgba(255, 255, 255, 0.3);
+
+    border-radius: 20px;
+
+    margin-top: 13px;
+
+    overflow: hidden;
+}
+
+.progress-fill {
+    width: 60%;
+
+    height: 100%;
+
+    background: white;
+
+    border-radius: 20px;
+}
+
+.challenge-bottom {
+    text-align: right;
+
+    font-size: 10px;
+
+    margin-top: 6px;
+}
+
+.challenge-card button {
+    width: 100%;
+
+    border: none;
+
+    background: rgba(255, 255, 255, 0.14);
+
+    color: white;
+
+    padding: 9px;
+
+    border-radius: 20px;
+
+    margin-top: 12px;
+
+    cursor: pointer;
+
+    font-size: 10px;
+}
+
+.challenge-card button:hover {
+    background: rgba(255, 255, 255, 0.22);
+}
+
+
+/* =========================
+   MAIN
+========================= */
 
 main {
     flex: 1;
+
+    min-width: 0;
 }
 
+
+/* =========================
+   TOPBAR
+========================= */
+
 .topbar {
-    height: 68px;
+    height: 72px;
 
     background: white;
 
     border-bottom: 1px solid #e7e7ee;
 
     display: flex;
+
     align-items: center;
 
-    padding: 0 22px;
+    padding: 0 28px;
 
-    gap: 30px;
+    gap: 28px;
 }
+
+
+/* MENU */
 
 .menu {
     background: none;
 
     border: none;
 
-    font-size: 20px;
+    font-size: 22px;
 
     color: #55556a;
 
     cursor: pointer;
 }
 
+
+/* SEARCH */
+
 .search {
-    width: 420px;
-    height: 38px;
+    width: min(580px, 60%);
 
-    border: 1px solid #e1e1e9;
+    height: 40px;
 
-    border-radius: 7px;
+    border: 1px solid #dedee8;
+
+    border-radius: 10px;
 
     display: flex;
+
     align-items: center;
 
-    padding: 0 12px;
+    padding: 0 14px;
+
+    background: #fff;
+}
+
+.search:focus-within {
+    border-color: #7657ef;
+
+    box-shadow: 0 0 0 3px rgba(118, 87, 239, 0.08);
 }
 
 .search input {
@@ -136,20 +327,608 @@ main {
 
     outline: none;
 
-    font-size: 11px;
+    font-size: 12px;
+
+    color: #33334a;
+}
+
+.search input::placeholder {
+    color: #9999aa;
 }
 
 .search span {
-    font-size: 19px;
+    font-size: 21px;
 
     color: #65657b;
 }
 
-.profile {
+
+/* TOP ICONS */
+
+.top-icons {
     margin-left: auto;
 
     display: flex;
+
     align-items: center;
 
-    gap: 9px;
+    gap: 25px;
+}
+
+.top-icon {
+    position: relative;
+
+    font-size: 20px;
+
+    cursor: pointer;
+}
+
+.top-icon small {
+    position: absolute;
+
+    top: -8px;
+
+    right: -9px;
+
+    min-width: 17px;
+
+    height: 17px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    border-radius: 50%;
+
+    background: #6546e8;
+
+    color: white;
+
+    font-size: 9px;
+
+    font-weight: bold;
+}
+
+
+/* =========================
+   PROFILE
+========================= */
+
+.profile {
+    padding-left: 20px;
+
+    border-left: 1px solid #eeeeee;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.avatar {
+    width: 38px;
+
+    height: 38px;
+
+    border-radius: 50%;
+
+    background: #6546e8;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 11px;
+
+    font-weight: bold;
+}
+
+.profile strong {
+    display: block;
+
+    font-size: 12px;
+}
+
+.profile small {
+    display: block;
+
+    margin-top: 3px;
+
+    font-size: 9px;
+
+    color: #88889a;
+}
+
+.profile-arrow {
+    margin-left: 10px;
+
+    color: #55556a;
+
+    font-size: 17px;
+}
+
+
+/* =========================
+   CONTENT
+========================= */
+
+.content {
+    padding: 26px;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    min-height: 300px;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 80% 30%,
+            rgba(115, 79, 238, 0.35),
+            transparent 25%
+        ),
+        linear-gradient(
+            110deg,
+            #111332,
+            #1e2052
+        );
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 45px 48px;
+
+    position: relative;
+}
+
+
+/* HERO CONTENT */
+
+.hero-content {
+    max-width: 530px;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+.hero-small {
+    font-size: 10px;
+
+    letter-spacing: 2px;
+
+    color: #bcb8ff;
+
+    font-weight: bold;
+
+    margin-bottom: 12px;
+}
+
+.hero h1 {
+    font-family: Georgia, serif;
+
+    font-size: clamp(38px, 4vw, 55px);
+
+    line-height: 1;
+
+    margin-bottom: 13px;
+}
+
+.hero h2 {
+    font-size: 18px;
+
+    font-weight: 500;
+
+    margin-bottom: 13px;
+}
+
+.hero-description {
+    max-width: 420px;
+
+    line-height: 1.6;
+
+    font-size: 13px;
+
+    color: #d9d9e6;
+}
+
+
+/* HERO BUTTONS */
+
+.hero-buttons {
+    display: flex;
+
+    gap: 12px;
+
+    margin-top: 25px;
+}
+
+.primary-btn,
+.secondary-btn {
+    padding: 12px 22px;
+
+    border-radius: 9px;
+
+    cursor: pointer;
+
+    font-size: 12px;
+
+    font-weight: bold;
+}
+
+.primary-btn {
+    border: none;
+
+    background: #704cf0;
+
+    color: white;
+
+    box-shadow: 0 7px 18px rgba(91, 58, 215, 0.35);
+}
+
+.primary-btn:hover {
+    transform: translateY(-1px);
+
+    background: #805df5;
+}
+
+.secondary-btn {
+    border: 1px solid rgba(255, 255, 255, 0.5);
+
+    background: transparent;
+
+    color: white;
+}
+
+.secondary-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+
+/* =========================
+   HERO VISUAL
+========================= */
+
+.hero-visual {
+    width: 40%;
+
+    min-width: 300px;
+
+    height: 260px;
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+.book-stack {
+    position: absolute;
+
+    right: 35px;
+
+    bottom: 24px;
+
+    width: 180px;
+
+    height: 150px;
+}
+
+.book {
+    width: 95px;
+
+    height: 130px;
+
+    position: absolute;
+
+    border-radius: 5px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 35px;
+
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.book-one {
+    bottom: 0;
+
+    left: 20px;
+
+    transform: rotate(-9deg);
+
+    background: #eee9ff;
+}
+
+.book-two {
+    bottom: 8px;
+
+    left: 55px;
+
+    transform: rotate(4deg);
+
+    background: #f8d9df;
+}
+
+.book-three {
+    bottom: 20px;
+
+    left: 85px;
+
+    transform: rotate(11deg);
+
+    background: #d8eddf;
+}
+
+.book-four {
+    bottom: 29px;
+
+    left: 45px;
+
+    transform: rotate(-1deg);
+
+    background: #f7e1c6;
+}
+
+
+/* READING PERSON */
+
+.reading-person {
+    position: absolute;
+
+    right: 120px;
+
+    top: 30px;
+
+    font-size: 95px;
+
+    filter: drop-shadow(
+        0 15px 18px rgba(0, 0, 0, 0.25)
+    );
+}
+
+
+/* =========================
+   ACTION CARDS
+========================= */
+
+.actions {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 18px;
+
+    margin-top: 22px;
+}
+
+.action-card {
+    background: white;
+
+    border: 1px solid #e9e9f0;
+
+    border-radius: 16px;
+
+    padding: 22px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 16px;
+
+    position: relative;
+
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s;
+
+    cursor: pointer;
+}
+
+.action-card:hover {
+    transform: translateY(-4px);
+
+    box-shadow: 0 12px 25px rgba(30, 30, 70, 0.08);
+}
+
+
+/* ACTION ICON */
+
+.action-icon {
+    min-width: 52px;
+
+    width: 52px;
+
+    height: 52px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    font-size: 24px;
+}
+
+.read-card .action-icon {
+    background: #ece6ff;
+}
+
+.borrow-card .action-icon {
+    background: #ddf5ee;
+}
+
+.buy-card .action-icon {
+    background: #fff0dc;
+}
+
+
+/* ACTION TEXT */
+
+.action-text h3 {
+    font-size: 14px;
+
+    margin-bottom: 6px;
+}
+
+.action-text p {
+    font-size: 11px;
+
+    line-height: 1.5;
+
+    color: #858598;
+}
+
+
+/* ACTION ARROW */
+
+.action-arrow {
+    margin-left: auto;
+
+    color: #6a50e8;
+
+    font-size: 20px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1100px) {
+
+    .sidebar {
+        width: 190px;
+    }
+
+    .hero {
+        padding: 35px;
+    }
+
+    .hero-visual {
+        min-width: 250px;
+    }
+
+    .reading-person {
+        right: 90px;
+    }
+
+    .actions {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 800px) {
+
+    .sidebar {
+        width: 75px;
+
+        padding: 20px 10px;
+    }
+
+    .logo span:last-child {
+        display: none;
+    }
+
+    nav a span:last-child {
+        display: none;
+    }
+
+    nav a {
+        justify-content: center;
+    }
+
+    .challenge-card {
+        display: none;
+    }
+
+    .logout span:last-child {
+        display: none;
+    }
+
+    .logout a {
+        justify-content: center;
+    }
+
+    .hero {
+        min-height: 420px;
+    }
+
+    .hero-visual {
+        display: none;
+    }
+
+    .search {
+        width: 100%;
+    }
+
+    .profile div:nth-child(2),
+    .profile-arrow {
+        display: none;
+    }
+
+}
+
+
+@media (max-width: 550px) {
+
+    .content {
+        padding: 15px;
+    }
+
+    .topbar {
+        padding: 0 15px;
+
+        gap: 12px;
+    }
+
+    .top-icons {
+        display: none;
+    }
+
+    .hero {
+        padding: 30px 24px;
+    }
+
+    .hero h1 {
+        font-size: 38px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
 }
