@@ -1,359 +1,607 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>BookNest</title>
+```
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="style.css">
+<title>BookNest</title>
+
+<link rel="stylesheet" href="style.css">
+```
+
 </head>
 
 <body>
 
-    <div class="app">
-<<<<<<< HEAD
+```
+<div class="app">
 
-        <!-- ================= SIDEBAR ================= -->
 
-=======
->>>>>>> e12fa390468fd23547cab4662156236d96b9630a
-        <aside class="sidebar">
+    <!-- ================= SIDEBAR ================= -->
 
-            <div class="logo">
-                <span class="logo-icon">📖</span>
-                <span>BookNest</span>
+    <aside class="sidebar">
+
+        <div class="logo">
+            <span class="logo-icon">📖</span>
+            <span>BookNest</span>
+        </div>
+
+
+        <nav>
+
+            <a href="#" class="active">
+                <span>🏠</span>
+                <span>Home</span>
+            </a>
+
+
+            <a href="#">
+                <span>▦</span>
+                <span>Browse Books</span>
+            </a>
+
+
+            <a href="#">
+                <span>◈</span>
+                <span>Categories</span>
+            </a>
+
+
+            <a href="#">
+                <span>📖</span>
+                <span>Read Books</span>
+            </a>
+
+
+            <a href="#">
+                <span>📕</span>
+                <span>Borrow Books</span>
+            </a>
+
+
+            <a href="#">
+                <span>🛒</span>
+                <span>Buy Books</span>
+            </a>
+
+
+            <hr>
+
+
+            <a href="#">
+                <span>◉</span>
+                <span>My Dashboard</span>
+            </a>
+
+
+            <a href="#">
+                <span>📚</span>
+                <span>My Library</span>
+            </a>
+
+
+            <a href="#">
+                <span>⚙</span>
+                <span>Settings</span>
+            </a>
+
+
+            <a href="#">
+                <span>❓</span>
+                <span>Help & Support</span>
+            </a>
+
+        </nav>
+
+
+        <!-- READING CHALLENGE -->
+
+        <div class="challenge-card">
+
+            <div class="challenge-title">
+                📚 Reading Challenge
             </div>
 
-            <nav>
-                <a href="#" class="active">
-                    <span>🏠</span>
-                    <span>Home</span>
-                </a>
+            <p>Read 5 books this month</p>
 
-                <a href="#">
-                    <span>▦</span>
-                    <span>Browse Books</span>
-                </a>
 
-                <a href="#">
-                    <span>◈</span>
-                    <span>Categories</span>
-                </a>
+            <div class="challenge-progress">
+                <div class="progress-fill"></div>
+            </div>
 
-                <a href="#">
-                    <span>📖</span>
-                    <span>Read Books</span>
-                </a>
 
-                <a href="#">
-                    <span>📕</span>
-                    <span>Borrow Books</span>
-                </a>
+            <div class="challenge-bottom">
+                <span>3 / 5</span>
+            </div>
 
-                <a href="#">
-                    <span>🛒</span>
-                    <span>Buy Books</span>
-                </a>
 
-                <hr>
+            <button>
+                View Challenge
+            </button>
 
-                <a href="#">
-                    <span>◉</span>
-                    <span>My Dashboard</span>
-                </a>
+        </div>
 
-                <a href="#">
-                    <span>📚</span>
-                    <span>My Library</span>
-                </a>
 
-                <a href="#">
-                    <span>⚙</span>
-                    <span>Settings</span>
-                </a>
+        <div class="logout">
 
-                <a href="#">
-                    <span>❓</span>
-                    <span>Help & Support</span>
-                </a>
+            <a href="#">
+                <span>↪</span>
+                <span>Logout</span>
+            </a>
 
-            </nav>
+        </div>
 
-            <!-- READING CHALLENGE -->
+    </aside>
 
-            <div class="challenge-card">
 
-                <div class="challenge-title">
-                    📚 Reading Challenge
-                </div>
+    <!-- ================= MAIN ================= -->
 
-                <p>Read 5 books this month</p>
+    <main>
 
-                <div class="challenge-progress">
-                    <div class="progress-fill"></div>
-                </div>
 
-                <div class="challenge-bottom">
-                    <span>3 / 5</span>
-                </div>
+        <!-- ================= TOPBAR ================= -->
 
-                <button>
-                    View Challenge
-                </button>
+        <header class="topbar">
+
+            <button class="menu">
+                ☰
+            </button>
+
+
+            <div class="search">
+
+                <input
+                    type="text"
+                    placeholder="Search books by title, author, category..."
+                >
+
+                <span>⌕</span>
 
             </div>
 
-            <div class="logout">
-                <a href="#">
-                    <span>↪</span>
-                    <span>Logout</span>
-                </a>
+
+            <div class="top-icons">
+
+                <span class="top-icon">
+                    🛒
+                    <small>3</small>
+                </span>
+
+
+                <span class="top-icon">
+                    🔔
+                </span>
+
             </div>
 
-        </aside>
-<<<<<<< HEAD
+
+            <!-- PROFILE -->
+
+            <div class="profile">
+
+                <div class="avatar">
+                    AK
+                </div>
 
 
-        <!-- ================= MAIN ================= -->
+                <div>
+                    <strong>Aniket Pathak</strong>
+                    <small>Premium Member</small>
+                </div>
 
-        <main>
 
-            <!-- TOPBAR -->
+                <span class="profile-arrow">
+                    ⌄
+                </span>
 
-            <header class="topbar">
+            </div>
 
-                <button class="menu">
-                    ☰
-                </button>
+        </header>
 
-=======
-        <main>
-            <header class="topbar">
-                <button class="menu">☰</button>
->>>>>>> e12fa390468fd23547cab4662156236d96b9630a
-                <div class="search">
 
-                    <input
-                        type="text"
-                        placeholder="Search books by title, author, category..."
-                    >
-                    <span>⌕</span>
+        <!-- ================= CONTENT ================= -->
+
+        <div class="content">
+
+
+            <!-- ================= HERO ================= -->
+
+            <section class="hero">
+
+                <div class="hero-content">
+
+                    <p class="hero-small">
+                        WELCOME TO BOOKNEST
+                    </p>
+
+
+                    <h1>
+                        Read. Learn. Grow.
+                    </h1>
+
+
+                    <h2>
+                        Your journey to knowledge starts here.
+                    </h2>
+
+
+                    <p class="hero-description">
+                        Read, borrow or buy books across
+                        multiple categories — all in one place.
+                    </p>
+
+
+                    <div class="hero-buttons">
+
+                        <button class="primary-btn">
+                            Explore Books
+                        </button>
+
+
+                        <button class="secondary-btn">
+                            How It Works
+                        </button>
+
+                    </div>
 
                 </div>
-<<<<<<< HEAD
 
-                <div class="top-icons">
 
-                    <span class="top-icon">
+                <!-- HERO VISUAL -->
+
+                <div class="hero-visual">
+
+                    <div class="book-stack">
+
+                        <div class="book book-one">
+                            📘
+                        </div>
+
+
+                        <div class="book book-two">
+                            📕
+                        </div>
+
+
+                        <div class="book book-three">
+                            📗
+                        </div>
+
+
+                        <div class="book book-four">
+                            📙
+                        </div>
+
+                    </div>
+
+
+                    <div class="reading-person">
+                        👩🏻‍💻
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= QUICK ACTIONS ================= -->
+
+            <section class="actions">
+
+
+                <!-- READ -->
+
+                <div class="action-card read-card">
+
+                    <div class="action-icon">
+                        📖
+                    </div>
+
+
+                    <div class="action-text">
+
+                        <h3>
+                            Read Books
+                        </h3>
+
+                        <p>
+                            Read digital books
+                            instantly online.
+                        </p>
+
+                    </div>
+
+
+                    <span class="action-arrow">
+                        →
+                    </span>
+
+                </div>
+
+
+                <!-- BORROW -->
+
+                <div class="action-card borrow-card">
+
+                    <div class="action-icon">
+                        📚
+                    </div>
+
+
+                    <div class="action-text">
+
+                        <h3>
+                            Borrow Books
+                        </h3>
+
+                        <p>
+                            Borrow physical books
+                            from our library.
+                        </p>
+
+                    </div>
+
+
+                    <span class="action-arrow">
+                        →
+                    </span>
+
+                </div>
+
+
+                <!-- BUY -->
+
+                <div class="action-card buy-card">
+
+                    <div class="action-icon">
                         🛒
-                        <small>3</small>
-                    </span>
+                    </div>
 
-                    <span class="top-icon">
-                        🔔
+
+                    <div class="action-text">
+
+                        <h3>
+                            Buy Books
+                        </h3>
+
+                        <p>
+                            Buy your favourite books
+                            at great prices.
+                        </p>
+
+                    </div>
+
+
+                    <span class="action-arrow">
+                        →
                     </span>
 
                 </div>
 
+            </section>
 
-                <!-- PROFILE -->
 
-=======
->>>>>>> e12fa390468fd23547cab4662156236d96b9630a
-                <div class="profile">
-                    <div class="avatar">
-                        AK
-                    </div>
+            <!-- ================= TRENDING BOOKS ================= -->
+
+            <section class="books-section">
+
+                <div class="section-header">
+
                     <div>
-                        <strong>Aniket Pathak</strong>
-                        <small>Premium Member</small>
+                        <h2>🔥 Trending Books</h2>
+                        <p>Popular books readers are loving right now</p>
                     </div>
-<<<<<<< HEAD
 
-                    <span class="profile-arrow">
-                        ⌄
-                    </span>
+                    <a href="#">View All →</a>
 
-=======
-                    <span>⌄</span>
->>>>>>> e12fa390468fd23547cab4662156236d96b9630a
                 </div>
-            </header>
-<<<<<<< HEAD
 
 
-            <!-- ================= CONTENT ================= -->
-
-            <div class="content">
+                <div class="books-grid">
 
 
-                <!-- HERO -->
+                    <!-- BOOK 1 -->
 
-                <section class="hero">
+                    <div class="book-card">
 
-                    <div class="hero-content">
-
-                        <p class="hero-small">
-                            WELCOME TO BOOKNEST
-                        </p>
-
-                        <h1>
-                            Read. Learn. Grow.
-                        </h1>
-
-                        <h2>
-                            Your journey to knowledge starts here.
-                        </h2>
-
-                        <p class="hero-description">
-                            Read, borrow or buy books across
-                            multiple categories — all in one place.
-                        </p>
-
-                        <div class="hero-buttons">
-
-                            <button class="primary-btn">
-                                Explore Books
-                            </button>
-
-                            <button class="secondary-btn">
-                                How It Works
-                            </button>
-
+                        <div class="book-cover cover-purple">
+                            <span>Atomic</span>
+                            <strong>Habits</strong>
                         </div>
+
+                        <h3>Atomic Habits</h3>
+
+                        <p>James Clear</p>
+
+                        <div class="book-info">
+                            <span>⭐ 4.6</span>
+                            <strong>₹499</strong>
+                        </div>
+
+                        <button>Buy Now</button>
 
                     </div>
 
 
-                    <!-- HERO VISUAL -->
+                    <!-- BOOK 2 -->
 
-                    <div class="hero-visual">
+                    <div class="book-card">
 
-                        <div class="book-stack">
-
-                            <div class="book book-one">
-                                📘
-                            </div>
-
-                            <div class="book book-two">
-                                📕
-                            </div>
-
-                            <div class="book book-three">
-                                📗
-                            </div>
-
-                            <div class="book book-four">
-                                📙
-                            </div>
-
+                        <div class="book-cover cover-yellow">
+                            <span>The Psychology</span>
+                            <strong>of Money</strong>
                         </div>
 
-                        <div class="reading-person">
-                            👩🏻‍💻
+                        <h3>The Psychology of Money</h3>
+
+                        <p>Morgan Housel</p>
+
+                        <div class="book-info">
+                            <span>⭐ 4.5</span>
+                            <strong>₹399</strong>
                         </div>
 
-                    </div>
-
-                </section>
-
-
-                <!-- QUICK ACTIONS -->
-
-                <section class="actions">
-
-                    <!-- READ -->
-
-                    <div class="action-card read-card">
-
-                        <div class="action-icon">
-                            📖
-                        </div>
-
-                        <div class="action-text">
-
-                            <h3>
-                                Read Books
-                            </h3>
-
-                            <p>
-                                Read digital books
-                                instantly online.
-                            </p>
-
-                        </div>
-
-                        <span class="action-arrow">
-                            →
-                        </span>
+                        <button>Buy Now</button>
 
                     </div>
 
 
-                    <!-- BORROW -->
+                    <!-- BOOK 3 -->
 
-                    <div class="action-card borrow-card">
+                    <div class="book-card">
 
-                        <div class="action-icon">
-                            📚
+                        <div class="book-cover cover-white">
+                            <span>Thinking,</span>
+                            <strong>Fast and Slow</strong>
                         </div>
 
-                        <div class="action-text">
+                        <h3>Thinking, Fast and Slow</h3>
 
-                            <h3>
-                                Borrow Books
-                            </h3>
+                        <p>Daniel Kahneman</p>
 
-                            <p>
-                                Borrow physical books
-                                from our library.
-                            </p>
-
+                        <div class="book-info">
+                            <span>⭐ 4.7</span>
+                            <strong>₹550</strong>
                         </div>
 
-                        <span class="action-arrow">
-                            →
-                        </span>
+                        <button>Buy Now</button>
 
                     </div>
 
 
-                    <!-- BUY -->
+                    <!-- BOOK 4 -->
 
-                    <div class="action-card buy-card">
+                    <div class="book-card">
 
-                        <div class="action-icon">
-                            🛒
+                        <div class="book-cover cover-dark">
+                            <span>Rich Dad</span>
+                            <strong>Poor Dad</strong>
                         </div>
 
-                        <div class="action-text">
+                        <h3>Rich Dad Poor Dad</h3>
 
-                            <h3>
-                                Buy Books
-                            </h3>
+                        <p>Robert Kiyosaki</p>
 
-                            <p>
-                                Buy your favourite books
-                                at great prices.
-                            </p>
-
+                        <div class="book-info">
+                            <span>⭐ 4.4</span>
+                            <strong>₹350</strong>
                         </div>
 
-                        <span class="action-arrow">
-                            →
-                        </span>
+                        <button>Buy Now</button>
 
                     </div>
 
-                </section>
+
+                    <!-- BOOK 5 -->
+
+                    <div class="book-card">
+
+                        <div class="book-cover cover-orange">
+                            <span>The</span>
+                            <strong>Alchemist</strong>
+                        </div>
+
+                        <h3>The Alchemist</h3>
+
+                        <p>Paulo Coelho</p>
+
+                        <div class="book-info">
+                            <span>⭐ 4.6</span>
+                            <strong>₹299</strong>
+                        </div>
+
+                        <button>Buy Now</button>
+
+                    </div>
+
+                </div>
+
+            </section>
 
 
-            </div>
+            <!-- ================= CATEGORIES ================= -->
 
-=======
->>>>>>> e12fa390468fd23547cab4662156236d96b9630a
-        </main>
-    </div>
+            <section class="categories-section">
+
+                <div class="section-header">
+
+                    <div>
+                        <h2>📚 Categories</h2>
+                        <p>Explore books based on your interests</p>
+                    </div>
+
+                    <a href="#">View All →</a>
+
+                </div>
+
+
+                <div class="categories-grid">
+
+
+                    <div class="category-card">
+                        <div class="category-icon">📕</div>
+                        <h3>Fiction</h3>
+                        <p>324 books</p>
+                    </div>
+
+
+                    <div class="category-card">
+                        <div class="category-icon">💻</div>
+                        <h3>Programming</h3>
+                        <p>215 books</p>
+                    </div>
+
+
+                    <div class="category-card">
+                        <div class="category-icon">📊</div>
+                        <h3>Data Science</h3>
+                        <p>180 books</p>
+                    </div>
+
+
+                    <div class="category-card">
+                        <div class="category-icon">💡</div>
+                        <h3>Self Help</h3>
+                        <p>250 books</p>
+                    </div>
+
+
+                    <div class="category-card">
+                        <div class="category-icon">💼</div>
+                        <h3>Business</h3>
+                        <p>150 books</p>
+                    </div>
+
+
+                    <div class="category-card">
+                        <div class="category-icon">🏛️</div>
+                        <h3>History</h3>
+                        <p>95 books</p>
+                    </div>
+
+
+                    <div class="category-card more-category">
+                        <div class="category-icon">•••</div>
+                        <h3>More</h3>
+                        <p>Explore all</p>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+    </main>
+
+</div>
+```
+
 </body>
+
 </html>
