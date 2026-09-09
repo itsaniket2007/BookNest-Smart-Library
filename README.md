@@ -1,4 +1,4 @@
-# 📚 BookNest
+#  BookNest
 
 **BookNest** is a modern and user-friendly **online book library and bookstore interface** designed to bring reading, borrowing, and buying books together in one place.
 
@@ -109,7 +109,7 @@ Users can track their current reading progress.
 ```text
 BookNest/
 │
-├── index.html
+├── file.html
 ├── style.css
 └── README.md
 ```
