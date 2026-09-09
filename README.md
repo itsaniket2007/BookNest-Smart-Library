@@ -162,9 +162,6 @@ The current project focuses on the frontend interface. It can be extended with:
 
 The main goal of BookNest is to create a **single platform for discovering, reading, borrowing, and purchasing books**, while providing users with a personalized dashboard to manage their reading journey.
 
-> **Read. Learn. Grow.**
-> *Your journey to knowledge starts here.*
-
 ---
 
 ## ⭐ Support
