@@ -1210,6 +1210,10 @@ main {
 
 }
 
+/* =========================
+   DAY 3 - USER DASHBOARD
+========================= */
+
 .page-layout {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 305px;
@@ -1430,6 +1434,9 @@ main {
 }
 
 
+/* =========================
+   DAY 3 - RESPONSIVE
+========================= */
 
 @media (max-width: 1100px) {
 
