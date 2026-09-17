@@ -16,7 +16,7 @@ body {
 }
 
 .left {
-  width: 220px;
+  width: 200px;
   min-height: 100vh;
   background: white;
   border-right: 1px solid #e7e7ee;
@@ -57,11 +57,6 @@ body {
   transition: 0.2s;
 }
 
-.menu-links a:hover {
-  background: #f1efff;
-  color: #6046e8;
-}
-
 .menu-links a.active {
   background: #e8e2ff;
   color: #6046e8;
@@ -78,7 +73,7 @@ body {
   margin-top: auto;
 }
 
-.logout a {
+.logout a{
   display: flex;
   align-items: center;
   gap: 12px;
@@ -88,11 +83,6 @@ body {
   font-size: 13px;
   border-radius: 9px;
 }
-
-.logout a:hover {
-  background: #fff0f0;
-}
-
 .challenge {
   margin-top: 25px;
   padding: 18px;
@@ -526,22 +516,12 @@ cursor: pointer;
   min-height: 34px;
 }
 
-.book > p {
-  font-size: 10px;
-  color: #8a8a9b;
-  margin-top: 5px;
-}
-
 .book-bottom {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: 12px;
   font-size: 11px;
-}
-
-.book-bottom span {
-  color: #f59e0b;
 }
 
 .book-bottom strong {
@@ -560,11 +540,6 @@ cursor: pointer;
   font-size: 10px;
   font-weight: bold;
   cursor: pointer;
-}
-
-.book button:hover {
-  background: #6546e8;
-  color: white;
 }
 
 .categories {
@@ -618,6 +593,318 @@ cursor: pointer;
 .more-category .category-pic {
   font-size: 20px;
   letter-spacing: 2px;
+}
+
+/* =========================================
+   MAIN CONTENT LAYOUT
+========================================= */
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 310px;
+  gap: 24px;
+  align-items: start;
+}
+
+.middle {
+  min-width: 0;
+}
+
+.right {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+
+/* =========================================
+   RIGHT SIDEBAR BOXES
+========================================= */
+
+.side-box {
+  background: white;
+  border: 1px solid #e9e9f0;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+
+/* =========================================
+   WELCOME BOX
+========================================= */
+
+.welcome {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(
+    135deg,
+    #f2efff,
+    #ffffff
+  );
+}
+
+.welcome p {
+  font-size: 12px;
+  color: #77778c;
+  margin-bottom: 5px;
+}
+
+.welcome h2 {
+  font-size: 20px;
+  color: #24243a;
+  margin-bottom: 12px;
+}
+
+.welcome button {
+  border: none;
+  background: #6546e8;
+  color: white;
+  padding: 9px 14px;
+  border-radius: 8px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.welcome button:hover {
+  background: #7657ef;
+}
+
+.welcome-pic {
+  position: absolute;
+  right: 18px;
+  bottom: 15px;
+  font-size: 45px;
+}
+
+
+/* =========================================
+   SIDE BOX TITLES
+========================================= */
+
+.side-title {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 15px;
+}
+
+.side-title h3 {
+  font-size: 16px;
+  color: #29293d;
+}
+
+.side-title a {
+  width: fit-content;
+  color: #6546e8;
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.side-title a:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================================
+   CART
+========================================= */
+
+.cart-book {
+  display: grid;
+  grid-template-columns: 42px 1fr auto;
+  gap: 10px;
+  align-items: center;
+
+  padding: 11px 0;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.cart-book:last-of-type {
+  border-bottom: none;
+}
+
+.tiny-book {
+  width: 42px;
+  height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 6px;
+  font-size: 19px;
+}
+
+.purple-mini {
+  background: #eee7ff;
+}
+
+.yellow-mini {
+  background: #fff1bb;
+}
+
+.orange-mini {
+  background: #ffe0c7;
+}
+
+.cart-info {
+  min-width: 0;
+}
+
+.cart-info strong {
+  display: block;
+  font-size: 11px;
+  color: #29293d;
+  line-height: 1.3;
+}
+
+.cart-info small {
+  display: block;
+  margin-top: 4px;
+  font-size: 9px;
+  color: #9999aa;
+}
+
+.cart-book > strong {
+  font-size: 11px;
+  color: #29293d;
+  white-space: nowrap;
+}
+
+
+/* =========================================
+   CART TOTAL
+========================================= */
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border-top: 1px solid #eeeeee;
+  margin-top: 8px;
+  padding-top: 14px;
+
+  font-size: 11px;
+  color: #77778c;
+}
+
+.total strong {
+  color: #29293d;
+  font-size: 13px;
+}
+
+
+/* =========================================
+   CHECKOUT BUTTON
+========================================= */
+
+.check-btn {
+  width: 100%;
+  margin-top: 14px;
+
+  padding: 10px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #6546e8;
+  color: white;
+
+  font-size: 11px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.check-btn:hover {
+  background: #7657ef;
+}
+
+
+/* =========================================
+   CURRENTLY READING
+========================================= */
+
+.now-reading {
+  display: flex;
+  gap: 13px;
+  align-items: flex-start;
+}
+
+.reading-cover {
+  min-width: 55px;
+  width: 55px;
+  height: 72px;
+
+  border-radius: 7px;
+
+  background: #e5f6db;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 22px;
+}
+
+.reading-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.reading-info > strong {
+  display: block;
+  font-size: 13px;
+  color: #29293d;
+  margin-bottom: 3px;
+}
+
+.reading-info p {
+  font-size: 11px;
+  color: #45455b;
+  margin-bottom: 4px;
+}
+
+.reading-info small {
+  display: block;
+  font-size: 9px;
+  color: #9999aa;
+}
+
+
+/* =========================================
+   READING PROGRESS
+========================================= */
+
+.reading-progress {
+  width: 100%;
+  height: 5px;
+
+  background: #eeeeee;
+  border-radius: 20px;
+
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.reading-progress-fill {
+  width: 65%;
+  height: 100%;
+
+  background: #6546e8;
+  border-radius: 20px;
+}
+
+.reading-info > span {
+  display: block;
+  text-align: right;
+
+  margin-top: 4px;
+
+  font-size: 9px;
+  color: #77778c;
 }
 
 @media (max-width: 1100px) {
@@ -741,3 +1028,4 @@ cursor: pointer;
   grid-template-columns: repeat(2, 1fr);
   }
 }
+

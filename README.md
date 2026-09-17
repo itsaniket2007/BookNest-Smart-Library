@@ -1,4 +1,4 @@
-# 📚 BookNest
+# BookNest
 
 **BookNest** is a modern and user-friendly **online book library and bookstore interface** designed to bring reading, borrowing, and buying books together in one place.
 
@@ -109,7 +109,7 @@ Users can track their current reading progress.
 ```text
 BookNest/
 │
-├── index.html
+├── file.html
 ├── style.css
 └── README.md
 ```
@@ -161,10 +161,6 @@ The current project focuses on the frontend interface. It can be extended with:
 ## 🎨 Project Goal
 
 The main goal of BookNest is to create a **single platform for discovering, reading, borrowing, and purchasing books**, while providing users with a personalized dashboard to manage their reading journey.
-
-> **Read. Learn. Grow.**
-> *Your journey to knowledge starts here.*
-
 ---
 
 ## ⭐ Support
