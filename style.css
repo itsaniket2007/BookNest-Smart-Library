@@ -594,11 +594,6 @@ cursor: pointer;
   font-size: 20px;
   letter-spacing: 2px;
 }
-
-/* =========================================
-   MAIN CONTENT LAYOUT
-========================================= */
-
 .layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 310px;
@@ -616,24 +611,12 @@ cursor: pointer;
   flex-direction: column;
   gap: 18px;
 }
-
-
-/* =========================================
-   RIGHT SIDEBAR BOXES
-========================================= */
-
 .side-box {
   background: white;
   border: 1px solid #e9e9f0;
   border-radius: 12px;
   padding: 20px;
 }
-
-
-/* =========================================
-   WELCOME BOX
-========================================= */
-
 .welcome {
   position: relative;
   overflow: hidden;
@@ -643,7 +626,6 @@ cursor: pointer;
     #ffffff
   );
 }
-
 .welcome p {
   font-size: 12px;
   color: #77778c;
@@ -676,12 +658,6 @@ cursor: pointer;
   bottom: 15px;
   font-size: 45px;
 }
-
-
-/* =========================================
-   SIDE BOX TITLES
-========================================= */
-
 .side-title {
   display: flex;
   flex-direction: column;
@@ -705,12 +681,6 @@ cursor: pointer;
 .side-title a:hover {
   text-decoration: underline;
 }
-
-
-/* =========================================
-   CART
-========================================= */
-
 .cart-book {
   display: grid;
   grid-template-columns: 42px 1fr auto;
@@ -772,12 +742,6 @@ cursor: pointer;
   color: #29293d;
   white-space: nowrap;
 }
-
-
-/* =========================================
-   CART TOTAL
-========================================= */
-
 .total {
   display: flex;
   justify-content: space-between;
@@ -795,12 +759,6 @@ cursor: pointer;
   color: #29293d;
   font-size: 13px;
 }
-
-
-/* =========================================
-   CHECKOUT BUTTON
-========================================= */
-
 .check-btn {
   width: 100%;
   margin-top: 14px;
@@ -821,11 +779,6 @@ cursor: pointer;
 .check-btn:hover {
   background: #7657ef;
 }
-
-
-/* =========================================
-   CURRENTLY READING
-========================================= */
 
 .now-reading {
   display: flex;
@@ -872,11 +825,6 @@ cursor: pointer;
   font-size: 9px;
   color: #9999aa;
 }
-
-
-/* =========================================
-   READING PROGRESS
-========================================= */
 
 .reading-progress {
   width: 100%;
