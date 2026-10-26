@@ -236,3 +236,134 @@
             color: var(--ink);
             font: 12px 'DM Sans', Arial
         }
+        .page-form button {
+            justify-self: start
+        }
+
+        .button {
+            cursor: pointer
+        }
+
+        .profile-avatar {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: var(--soft);
+            color: var(--purple);
+            display: grid;
+            place-items: center;
+            font: 800 25px Manrope;
+            border: 3px solid var(--line);
+            margin-bottom: 12px
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover
+        }
+
+        .profile-avatar img.hidden {
+            display: none
+        }
+
+        .hidden {
+            display: none !important
+        }
+
+        .button-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap
+        }
+
+        .tabs {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin: 15px 0
+        }
+
+        .tabs button {
+            border: 1px solid var(--line);
+            background: var(--paper);
+            color: var(--muted);
+            border-radius: 8px;
+            padding: 8px 11px;
+            font-size: 10px
+        }
+
+        .tabs button.selected {
+            background: var(--soft);
+            border-color: #d5caff;
+            color: var(--purple);
+            font-weight: 800
+        }
+
+        .faq {
+            border-bottom: 1px solid var(--line);
+            padding: 12px 0
+        }
+
+        .faq summary {
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer
+        }
+
+        .faq p {
+            font-size: 10px;
+            color: var(--muted)
+        }
+
+        .placeholder-note {
+            background: var(--soft);
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 10px;
+            color: var(--ink)
+        }
+
+        @media(max-width:500px) {
+            body {
+                padding: 9px
+            }
+
+            .page-panel {
+                padding: 16px
+            }
+
+            .book-row {
+                align-items: flex-start
+            }
+
+            .row-actions {
+                gap: 5px
+            }
+
+            .action {
+                padding: 7px 8px
+            }
+        }
+
+        body.embed-mode {
+            padding: 0
+        }
+
+        .embed-mode .standalone {
+            max-width: none;
+            margin: 0
+        }
+
+        .embed-mode .page-nav {
+            display: none
+        }
+
+        .embed-mode .page-panel {
+            border-radius: 0;
+            min-height: 100%;
+            box-shadow: none
+        }
+    </style>
+</head>
