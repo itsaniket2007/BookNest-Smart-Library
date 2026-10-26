@@ -1,1 +1,33 @@
+<!doctype html>
+<html lang="en">
 
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6546e8">
+  <title>BookNest — Read. Learn. Grow.</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+      <div class="brand-row"><a class="brand" href="#home">Book<span>Nest</span></a><button id="closeMenuButton"
+          class="icon-btn mobile-only" aria-label="Close menu">×</button></div>
+      <nav class="side-nav">
+        <a class="active" href="#home" data-section="home"><span>Home</span></a>
+        <a href="#books" data-section="books"><span>Browse Books</span></a>
+        <a href="#library" data-section="library"><span>My Library</span></a>
+        <a href="#challenge" data-section="challenge"><span>Reading Challenge</span></a>
+      </nav>
+      <div class="sidebar-challenge">
+        <p class="eyebrow">YOUR MONTHLY GOAL</p>
+        <h3 id="sideGoalCount">0 / 5 books</h3>
+        <div class="progress"><span id="sideGoalFill"></span></div><button class="button button-light button-small"
+          data-section="challenge">View challenge</button>
+      </div>
+      <div class="sidebar-bottom"><button class="nav-action" data-open="profile.html">♙ <span>My
+            Profile</span></button><button class="nav-action" data-open="contact.html">✉ <span>Contact
+            Us</span></button></div>
+    </aside>
+    <div class="mobile-scrim" id="menuOverlay"></div>
