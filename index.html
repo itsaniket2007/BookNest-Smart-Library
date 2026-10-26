@@ -116,3 +116,57 @@
               data-category="History"><span>⌛</span><strong>History</strong><small>Stories of our past</small></button>
           </div>
         </section>
+        <section class="section" id="borrowedSection">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">YOUR BOOKS, YOUR TIME</p>
+              <h2>My borrowed books</h2>
+              <p class="section-subtitle">Keep an eye on due dates and return books when you're done.</p>
+            </div><button class="text-button" data-open="borrow.html">Borrow more ↗</button>
+          </div>
+          <div id="borrowedBooks" class="personal-grid"></div>
+        </section>
+        <section class="section" id="library">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">PICK UP WHERE YOU LEFT OFF</p>
+              <h2>Currently reading</h2>
+              <p class="section-subtitle">Every page gets you closer to the finish line.</p>
+            </div><button class="text-button" data-open="library.html">Open my library ↗</button>
+          </div>
+          <div id="currentlyReading" class="personal-grid"></div>
+        </section>
+        <section class="section goal-section" id="challenge">
+          <div class="goal-main">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">SMALL STEPS ADD UP</p>
+                <h2>Reading challenge</h2>
+                <p class="section-subtitle">Celebrate each book you finish this month.</p>
+              </div>
+            </div>
+            <div class="challenge-stats">
+              <div><strong id="challengeCompleted">0</strong><span>Books completed</span></div>
+              <div><strong id="challengeRemaining">5</strong><span>To reach your goal</span></div>
+              <div><strong id="challengePercent">0%</strong><span>Monthly progress</span></div>
+            </div>
+            <div class="goal-progress">
+              <div class="progress"><span id="challengeFill"></span></div>
+              <p id="goalMotivation">Every great reading streak starts with one page.</p>
+            </div>
+            <div id="challengeBooks" class="challenge-book-list"></div><button class="button button-outline"
+              data-open="library.html">Manage reading challenge</button>
+          </div>
+          <aside class="goal-edit-card">
+            <div class="goal-icon">◎</div>
+            <p class="eyebrow">YOUR PERSONAL GOAL</p>
+            <h3><span id="goalTargetDisplay">5</span> books <small>/ month</small></h3>
+            <p>Choose a goal that feels exciting, not overwhelming.</p>
+            <div id="goalEditForm" class="goal-edit-form hidden"><label for="goalTarget">Monthly book
+                target</label><input id="goalTarget" type="number" min="1" max="100" step="1">
+              <div class="button-row"><button id="saveGoalButton" class="button button-primary">Save
+                  goal</button><button id="cancelGoalButton" class="button button-outline">Cancel</button></div>
+              <p id="goalStatus" class="form-message" aria-live="polite"></p>
+            </div><button id="editGoalButton" class="button button-primary">Edit goal</button>
+          </aside>
+        </section>
