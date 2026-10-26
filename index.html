@@ -31,3 +31,189 @@
             Us</span></button></div>
     </aside>
     <div class="mobile-scrim" id="menuOverlay"></div>
+    <main class="main">
+      <header class="topbar">
+        <button id="menuButton" class="icon-btn menu-toggle" aria-label="Open menu">☰</button>
+        <div class="mobile-brand">Book<span>Nest</span></div>
+        <form id="searchForm" class="searchbar"><span>⌕</span><input id="searchInput"
+            placeholder="Search books, authors, categories…" aria-label="Search books"><button
+            type="submit">Search</button></form>
+        <div class="top-actions"><button id="themeButton" class="button button-outline">☾ <span>Dark
+              mode</span></button><button class="button button-primary" data-open="cart.html">Cart <span
+              class="count-pill" id="cartCount">0</span></button></div>
+      </header>
+      <div class="content">
+        <section class="hero" id="home">
+          <div class="hero-copy">
+            <p class="eyebrow">YOUR NEXT CHAPTER STARTS HERE</p>
+            <h1>Read more.<br><span>Become more.</span></h1>
+            <p>Discover stories, build your reading habit, and keep your literary world organised in one cosy place.</p>
+            <div class="hero-actions"><a class="button button-white" href="#books">Explore books
+                <span>→</span></a><button class="button button-glass" data-open="borrow.html">Borrow a book</button>
+            </div>
+          </div>
+          <div class="hero-art" aria-hidden="true">
+            <div class="art-orbit"></div>
+            <div class="art-book book-back"><span>THE ART OF</span><strong>FOCUS</strong></div>
+            <div class="art-book book-front"><span>BOOKNEST
+                EDITION</span><strong>THE<br>READING<br>JOURNEY</strong><i>Read · Reflect · Repeat</i></div>
+            <div class="art-sparkle sparkle-one">✦</div>
+            <div class="art-sparkle sparkle-two">✧</div>
+          </div>
+        </section>
+        <section class="quick-actions" aria-label="Quick actions">
+          <button class="quick-action" data-open="borrow.html"><span
+              class="quick-icon lilac">↗</span><span><strong>Borrow books</strong><small>Up to 2 per
+                month</small></span><b>→</b></button>
+          <button class="quick-action" data-open="library.html"><span class="quick-icon mint">▤</span><span><strong>My
+                library</strong><small>Pick up where you left off</small></span><b>→</b></button>
+          <button class="quick-action" data-open="cart.html"><span class="quick-icon peach">♡</span><span><strong>Cart &
+                wishlist</strong><small>Your saved favourites</small></span><b>→</b></button>
+          <button class="quick-action" data-open="profile.html"><span
+              class="quick-icon blue">♙</span><span><strong>Reader profile</strong><small>Make it
+                yours</small></span><b>→</b></button>
+        </section>
+        <section class="section" id="books">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">FIND YOUR NEXT FAVOURITE</p>
+              <h2>Trending books <span class="heading-dot">.</span></h2>
+              <p class="section-subtitle">Hand-picked reads for curious minds.</p>
+            </div><button id="showAllButton" class="text-button">Show all books ↗</button>
+          </div>
+          <div class="filter-row"><label for="categoryFilter">Browse by category</label><select id="categoryFilter">
+              <option>All</option>
+              <option>Fiction</option>
+              <option>Programming</option>
+              <option>Data Science</option>
+              <option>Data and Technology</option>
+              <option>Self Help</option>
+              <option>Business</option>
+              <option>History</option>
+            </select><span id="bookCount"></span></div>
+          <div class="book-list" id="bookList"></div>
+          <p id="noBooks" class="empty-state hidden">No books match your search. Try another title or category.</p>
+        </section>
+        <section class="section" id="categories">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">FOLLOW YOUR CURIOSITY</p>
+              <h2>Explore categories</h2>
+              <p class="section-subtitle">A good book can take you anywhere.</p>
+            </div>
+          </div>
+          <div class="category-list"><button class="category-card"
+              data-category="Fiction"><span>✧</span><strong>Fiction</strong><small>Stories &
+                imagination</small></button><button class="category-card"
+              data-category="Programming"><span>⌘</span><strong>Programming</strong><small>Build your
+                skills</small></button><button class="category-card"
+              data-category="Data Science"><span>◈</span><strong>Data Science</strong><small>Insights &
+                discovery</small></button><button class="category-card"
+              data-category="Self Help"><span>☼</span><strong>Self Help</strong><small>Grow every
+                day</small></button><button class="category-card"
+              data-category="Business"><span>↗</span><strong>Business</strong><small>Ideas that
+                work</small></button><button class="category-card"
+              data-category="History"><span>⌛</span><strong>History</strong><small>Stories of our past</small></button>
+          </div>
+        </section>
+        <section class="section" id="borrowedSection">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">YOUR BOOKS, YOUR TIME</p>
+              <h2>My borrowed books</h2>
+              <p class="section-subtitle">Keep an eye on due dates and return books when you're done.</p>
+            </div><button class="text-button" data-open="borrow.html">Borrow more ↗</button>
+          </div>
+          <div id="borrowedBooks" class="personal-grid"></div>
+        </section>
+        <section class="section" id="library">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">PICK UP WHERE YOU LEFT OFF</p>
+              <h2>Currently reading</h2>
+              <p class="section-subtitle">Every page gets you closer to the finish line.</p>
+            </div><button class="text-button" data-open="library.html">Open my library ↗</button>
+          </div>
+          <div id="currentlyReading" class="personal-grid"></div>
+        </section>
+        <section class="section goal-section" id="challenge">
+          <div class="goal-main">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">SMALL STEPS ADD UP</p>
+                <h2>Reading challenge</h2>
+                <p class="section-subtitle">Celebrate each book you finish this month.</p>
+              </div>
+            </div>
+            <div class="challenge-stats">
+              <div><strong id="challengeCompleted">0</strong><span>Books completed</span></div>
+              <div><strong id="challengeRemaining">5</strong><span>To reach your goal</span></div>
+              <div><strong id="challengePercent">0%</strong><span>Monthly progress</span></div>
+            </div>
+            <div class="goal-progress">
+              <div class="progress"><span id="challengeFill"></span></div>
+              <p id="goalMotivation">Every great reading streak starts with one page.</p>
+            </div>
+            <div id="challengeBooks" class="challenge-book-list"></div><button class="button button-outline"
+              data-open="library.html">Manage reading challenge</button>
+          </div>
+          <aside class="goal-edit-card">
+            <div class="goal-icon">◎</div>
+            <p class="eyebrow">YOUR PERSONAL GOAL</p>
+            <h3><span id="goalTargetDisplay">5</span> books <small>/ month</small></h3>
+            <p>Choose a goal that feels exciting, not overwhelming.</p>
+            <div id="goalEditForm" class="goal-edit-form hidden"><label for="goalTarget">Monthly book
+                target</label><input id="goalTarget" type="number" min="1" max="100" step="1">
+              <div class="button-row"><button id="saveGoalButton" class="button button-primary">Save
+                  goal</button><button id="cancelGoalButton" class="button button-outline">Cancel</button></div>
+              <p id="goalStatus" class="form-message" aria-live="polite"></p>
+            </div><button id="editGoalButton" class="button button-primary">Edit goal</button>
+          </aside>
+        </section>
+        <section class="section" id="completedSection">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">LOOK HOW FAR YOU'VE COME</p>
+              <h2>Recently completed</h2>
+              <p class="section-subtitle">Your finished books, all in one place.</p>
+            </div><button class="text-button" data-open="library.html">View all ↗</button>
+          </div>
+          <div id="completedBooks" class="personal-grid"></div>
+        </section>
+        <section class="testimonials-section">
+          <div class="testimonial-heading">
+            <p class="eyebrow">KIND WORDS, SAMPLE REVIEWS</p>
+            <h2>Readers love a good story<span class="heading-dot">.</span></h2>
+            <p class="section-subtitle">Illustrative demo testimonials — not verified customer reviews.</p>
+          </div>
+          <div class="testimonial-carousel" id="testimonialCarousel"><button class="carousel-arrow prev"
+              id="testimonialPrev" aria-label="Previous testimonials">←</button>
+            <div class="testimonial-window">
+              <div class="testimonial-track" id="testimonialTrack"></div>
+            </div><button class="carousel-arrow next" id="testimonialNext" aria-label="Next testimonials">→</button>
+          </div>
+          <div class="carousel-dots" id="testimonialDots"></div>
+        </section>
+        <footer class="footer"><a class="brand" href="#home">Book<span>Nest</span></a><span>Read something new every
+            day.</span>
+          <div><button data-open="contact.html">Contact us</button><button
+              data-open="contact.html#feedback">Feedback</button><button data-open="profile.html">Profile</button></div>
+        </footer>
+      </div>
+    </main>
+  </div>
+  <div id="pageModal" class="modal-backdrop" aria-hidden="true">
+    <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="pageModalTitle">
+      <header class="modal-header">
+        <div>
+          <p class="eyebrow">BOOKNEST WORKSPACE</p>
+          <h2 id="pageModalTitle">BookNest</h2>
+        </div><button id="closePageModal" class="icon-btn close-modal" aria-label="Close dialog">×</button>
+      </header><iframe id="pageFrame" title="BookNest secondary page" src="about:blank"></iframe>
+    </section>
+  </div>
+  <div id="notice" class="notice" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+
+</html>
