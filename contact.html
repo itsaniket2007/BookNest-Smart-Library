@@ -150,3 +150,89 @@
             flex-wrap: wrap;
             margin-top: 8px
         }
+        .action,
+        .small-action,
+        .remove-action {
+            border: 0;
+            border-radius: 7px;
+            background: var(--purple);
+            color: white;
+            padding: 8px 10px;
+            font-size: 10px;
+            font-weight: 700
+        }
+
+        .small-action {
+            padding: 5px 9px;
+            background: var(--soft);
+            color: var(--purple)
+        }
+
+        .remove-action {
+            background: #fff0f0;
+            color: #b33d51
+        }
+
+        .quantity {
+            font-size: 11px;
+            font-weight: 700
+        }
+
+        .disabled {
+            opacity: .55
+        }
+
+        .empty {
+            padding: 18px;
+            border: 1px dashed #d9d1ef;
+            border-radius: 10px;
+            color: var(--muted);
+            font-size: 11px;
+            text-align: center
+        }
+
+        .status {
+            font-size: 11px;
+            color: #26835e;
+            margin-top: 10px;
+            min-height: 16px
+        }
+
+        .summary-line {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--line);
+            font-size: 12px
+        }
+
+        .summary-line.total {
+            font-weight: 800;
+            font-size: 14px
+        }
+
+        .page-form {
+            display: grid;
+            gap: 13px;
+            max-width: 620px
+        }
+
+        .page-form label {
+            display: grid;
+            gap: 6px;
+            font-size: 10px;
+            font-weight: 700
+        }
+
+        .page-form input,
+        .page-form select,
+        .page-form textarea {
+            width: 100%;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 11px;
+            background: var(--bg);
+            color: var(--ink);
+            font: 12px 'DM Sans', Arial
+        }
