@@ -9,3 +9,57 @@
   <link rel="stylesheet" href="../css/main.css">
   <script src="../js/common.js"></script>
 </head>
+
+<body class="page" data-page="cart">
+  <main class="page-shell">
+    <header class="page-header">
+      <a class="back-link" href="index.html">← BookNest home</a>
+      <nav class="page-nav" aria-label="BookNest pages">
+        <a href="library.html">My Library</a>
+        <a href="borrow.html">Borrow</a>
+        <a href="cart.html" aria-current="page">Cart &amp; Wishlist</a>
+        <a href="profile.html">Profile</a>
+        <a href="contact.html">Contact</a>
+        <a href="feedback.html">Feedback</a>
+      </nav>
+      <button type="button" id="themeButton" class="btn btn-outline btn-sm" aria-pressed="false">☾ Dark mode</button>
+    </header>
+    <section class="page-panel" aria-labelledby="pageTitle">
+      <h1 id="pageTitle">Shopping cart</h1>
+      <p class="page-intro">Review quantities and totals before trying the demo checkout.</p>
+      <div id="cartPage" class="rows"></div>
+      <div class="summary-line"><span>Subtotal</span><strong id="cartSubtotal">₹0.00</strong></div>
+      <div class="summary-line"><span>GST (5%)</span><strong id="cartGst">₹0.00</strong></div>
+      <div class="summary-line total"><span>Total</span><strong id="cartTotal">₹0.00</strong></div>
+      <div class="button-row spaced"><button type="button" id="checkoutButton" class="btn btn-primary">Demo checkout</button></div>
+    </section>
+    <section class="page-panel" aria-labelledby="wishlistTitle">
+      <h2 id="wishlistTitle" class="panel-title">My wishlist</h2>
+      <p class="page-intro">Saved favourites live here alongside your cart. Adding a book to your cart keeps it in your wishlist.</p>
+      <p id="wishlistStatus" class="form-status" role="status"></p>
+      <div id="wishlistPage" class="rows"></div>
+    </section>
+  </main>
+  <dialog id="checkoutDialog" aria-labelledby="checkoutTitle">
+    <div class="dialog">
+      <button type="button" id="checkoutClose" class="icon-btn dialog-close" aria-label="Close order summary">×</button>
+      <h2 id="checkoutTitle">Order summary</h2>
+      <div class="summary-line"><span>Subtotal</span><strong id="checkoutSubtotal">₹0.00</strong></div>
+      <div class="summary-line"><span>GST (5%)</span><strong id="checkoutGst">₹0.00</strong></div>
+      <div class="summary-line total"><span>Total payable</span><strong id="checkoutTotal">₹0.00</strong></div>
+      <div id="paymentOptions">
+        <h3>Choose a payment method</h3>
+        <div class="payment-options">
+          <button type="button" class="btn btn-soft" data-payment="UPI">UPI</button>
+          <button type="button" class="btn btn-soft" data-payment="Card">Card</button>
+          <button type="button" class="btn btn-soft" data-payment="Cash on Delivery">Cash on Delivery</button>
+        </div>
+      </div>
+      <p id="orderSuccess" class="form-status is-success hidden" role="status"></p>
+      <p>Demo checkout only. No real payment is collected.</p>
+    </div>
+  </dialog>
+  <script src="../js/pages.js"></script>
+</body>
+
+</html>
