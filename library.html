@@ -1,1 +1,108 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>My Library | BookNest</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            padding: 20px;
+            background: var(--bg)
+        }
+
+        .standalone {
+            max-width: 850px;
+            margin: 0 auto
+        }
+
+        .page-nav {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: 0 0 17px
+        }
+
+        .page-nav a {
+            color: var(--purple);
+            font-size: 10px;
+            font-weight: 700;
+            padding: 7px 10px;
+            border-radius: 7px;
+            background: var(--soft)
+        }
+
+        .page-panel {
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: 15px;
+            padding: 23px;
+            margin: 0 0 17px;
+            box-shadow: var(--shadow)
+        }
+
+        .page-panel h1 {
+            font: 800 24px Manrope;
+            margin: 0 0 6px
+        }
+
+        .page-panel h2 {
+            font: 800 16px Manrope;
+            margin: 22px 0 10px
+        }
+
+        .page-panel>p,
+        .intro {
+            color: var(--muted);
+            font-size: 11px;
+            margin: 6px 0 17px
+        }
+
+        .rows {
+            display: grid;
+            gap: 10px
+        }
+
+        .book-row {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--line)
+        }
+
+        .book-row:last-child {
+            border-bottom: 0
+        }
+
+        .book-row-body {
+            flex: 1;
+            min-width: 0
+        }
+
+        .book-row h3 {
+            font: 700 12px Manrope;
+            margin: 0 0 3px
+        }
+
+        .muted {
+            font-size: 10px;
+            color: var(--muted);
+            margin: 0 0 8px
+        }
+
+        .mini-cover {
+            width: 57px;
+            min-width: 57px;
+            height: 76px;
+            padding: 7px;
+            border-radius: 6px;
+            display: flex;
+            align-items: flex-end;
+            color: white;
+            font: 700 9px Manrope;
+            line-height: 1.2;
+            box-shadow: inset 4px 0 #ffffff25
+        }
 
