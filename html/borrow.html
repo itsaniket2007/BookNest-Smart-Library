@@ -9,3 +9,33 @@
   <link rel="stylesheet" href="../css/main.css">
   <script src="../js/common.js"></script>
 </head>
+
+<body class="page" data-page="borrow">
+  <main class="page-shell">
+    <header class="page-header">
+      <a class="back-link" href="index.html">← BookNest home</a>
+      <nav class="page-nav" aria-label="BookNest pages">
+        <a href="library.html">My Library</a>
+        <a href="borrow.html" aria-current="page">Borrow</a>
+        <a href="cart.html">Cart &amp; Wishlist</a>
+        <a href="profile.html">Profile</a>
+        <a href="contact.html">Contact</a>
+        <a href="feedback.html">Feedback</a>
+      </nav>
+      <button type="button" id="themeButton" class="btn btn-outline btn-sm" aria-pressed="false">☾ Dark mode</button>
+    </header>
+    <section class="page-panel" aria-labelledby="pageTitle">
+      <h1 id="pageTitle">Borrow books</h1>
+      <p class="page-intro">Borrow up to two books in each calendar month. Returning a book early does not reset the monthly count. Each loan lasts 30 days.</p>
+      <div class="summary-line"><strong>Borrowing this month</strong><strong id="borrowCount">0 / 2 this month</strong></div>
+      <p id="borrowStatus" class="form-status" role="status"></p>
+      <h2>Currently borrowed</h2>
+      <div id="borrowedList" class="rows"></div>
+      <h2>Available catalogue</h2>
+      <div id="borrowCatalog" class="rows"></div>
+    </section>
+  </main>
+  <script src="../js/pages.js"></script>
+</body>
+
+</html>
