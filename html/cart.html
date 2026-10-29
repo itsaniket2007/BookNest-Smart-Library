@@ -1,108 +1,11 @@
-.rows {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-}
+<!doctype html>
+<html lang="en">
 
-.book-row {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 18px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: var(--paper);
-}
-
-.book-row:last-child {
-  border-bottom: 1px solid var(--line);
-}
-
-.mini-cover {
-  width: 100px;
-  min-width: 100px;
-  height: 135px;
-  padding: 10px;
-  border-radius: 8px;
-  font-size: 11px;
-}
-
-.book-row-body {
-  width: 100%;
-  min-width: 0;
-}
-
-.book-row h3 {
-  font-size: 14px;
-  margin-bottom: 6px;
-}
-
-.muted {
-  font-size: 11px;
-  line-height: 1.6;
-}
-
-/* Stack item action controls */
-.book-row .row-actions {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 8px;
-  width: 100%;
-}
-
-.book-row .row-actions button {
-  width: 100%;
-  padding: 10px;
-}
-
-.payment-options {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.payment-options button {
-  width: 100%;
-  padding: 14px;
-  border-radius: 9px;
-}
-
-#checkoutPage {
-  width: 100%;
-  margin-top: 12px;
-  padding: 13px;
-  cursor: pointer;
-}
-
-@media (max-width: 500px) {
-  body {
-    padding: 9px;
-  }
-
-  .page-panel {
-    padding: 16px;
-  }
-
-  .book-row {
-    padding: 14px;
-  }
-
-  .mini-cover {
-    width: 90px;
-    min-width: 90px;
-    height: 120px;
-  }
-
-  .checkout-dialog {
-    width: 100%;
-    max-height: 90vh;
-    padding: 18px;
-  }
-
-  .summary-line {
-    gap: 10px;
-    font-size: 11px;
-  }
-}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6849e8">
+  <title>Shopping Cart | BookNest</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <script src="../js/common.js"></script>
+</head>

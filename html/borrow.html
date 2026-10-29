@@ -1,73 +1,11 @@
-.rows {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-}
+<!doctype html>
+<html lang="en">
 
-.book-row {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 18px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: var(--paper);
-}
-
-.mini-cover {
-  width: 100px;
-  min-width: 100px;
-  height: 135px;
-  padding: 10px;
-  border-radius: 8px;
-  font-size: 11px;
-}
-
-.book-row-body {
-  width: 100%;
-  min-width: 0;
-}
-
-.book-row h3 {
-  font-size: 14px;
-  margin-bottom: 6px;
-}
-
-.muted {
-  font-size: 11px;
-  line-height: 1.6;
-}
-
-.row-actions {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 8px;
-  width: 100%;
-}
-
-.row-actions button {
-  width: 100%;
-  padding: 10px;
-}
-
-.action,
-.small-action,
-.remove-action {
-  cursor: pointer;
-}
-
-.book-row:last-child {
-  border-bottom: 1px solid var(--line);
-}
-@media (max-width: 500px) {
-  .book-row {
-    padding: 14px;
-  }
-  .mini-cover {
-    width: 90px;
-    min-width: 90px;
-    height: 120px;
-  }
-}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6849e8">
+  <title>Borrow Books | BookNest</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <script src="../js/common.js"></script>
+</head>

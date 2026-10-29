@@ -1,0 +1,10 @@
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  align-items: center;
+  gap: var(--space-6);
+  padding: 40px 48px;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(120deg, #33256d 0%, #4a36a6 62%, #5b43c4 100%);
+  color: #fff;
+}

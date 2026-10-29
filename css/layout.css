@@ -1,0 +1,15 @@
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+}
+
+.content {
+  max-width: 1500px;
+  margin: auto;
+  padding: 29px 36px 20px;
+}
