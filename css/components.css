@@ -248,7 +248,6 @@
   transform: translateY(-3px);
   box-shadow: var(--shadow);
 }
-
 .book-cover,
 .mini-cover {
   display: flex;
@@ -499,7 +498,6 @@
   border-radius: 10px;
   background: var(--bg);
 }
-
 .challenge-stats strong {
   font: 800 1.5rem var(--font-head);
 }
@@ -771,3 +769,4 @@ dialog::backdrop {
 .page-panel .empty-state {
   background: transparent;
 }
+

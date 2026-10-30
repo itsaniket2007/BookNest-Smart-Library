@@ -6,7 +6,6 @@
 
   const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const MAX_PHOTO_BYTES = 2 * 1024 * 1024;
-
   function setStatus(node, message, ok) {
     if (!node) return;
     node.textContent = message;
@@ -20,7 +19,6 @@
   function create(tag, className) {
     return app.el(tag, "", className);
   }
-
   function bookRow(book, detail, actions, extra) {
     const row = create("article", "book-row");
     const body = create("div", "book-row-body");
@@ -43,7 +41,6 @@
     renderCurrentPage();
     dataChanged();
   }
-
   function validateForm(form, rules) {
     const values = {};
     let firstInvalid = null;
@@ -71,7 +68,7 @@
     });
   }
 
-  /* Borrow page --------------------------------------------------------- */
+  /* 2. Borrow page --------------------------------------------------------- */
   function renderBorrow() {
     const loans = app.activeLoans();
     const limitReached = app.borrowLimitReached();
@@ -105,7 +102,7 @@
     dataChanged();
   }
 
-  /*Cart, checkout and wishlist ---------------------------------------- */
+  /* 3. Cart, checkout and wishlist ---------------------------------------- */
   function renderCart() {
     const cart = app.getCart();
     const host = $("cartPage");
@@ -191,7 +188,7 @@
     });
   }
 
-  /*Library page -------------------------------------------------------- */
+  /* 4. Library page -------------------------------------------------------- */
   let libraryFilter = "All";
 
   function renderLibrary() {
@@ -260,7 +257,7 @@
     });
   }
 
-  /*Profile page -------------------------------------------------------- */
+  /* 5. Profile page -------------------------------------------------------- */
   const PROFILE_FIELDS = [
     ["firstName", "First name"],
     ["lastName", "Last name"],
@@ -391,6 +388,8 @@
 
     render();
   }
+
+  /* 6. Feedback page ------------------------------------------------------- */
   const FEEDBACK_RULES = {
     name: function (v) { return v.length < 2 ? "Enter your name (at least 2 characters)." : ""; },
     email: function (v) { return EMAIL_PATTERN.test(v) ? "" : "Enter a valid email address, such as name@example.com."; },
@@ -417,6 +416,8 @@
       setStatus(status, "Saved in this browser only. Your feedback has not been sent to the BookNest team. To reach them, email booknest@bmu.edu.in.", true);
     });
   }
+
+  /* 7. Initialisation ------------------------------------------------------ */
   const pageName = document.body.dataset.page;
 
   const PAGE_RENDERERS = {
@@ -437,6 +438,8 @@
     button.setAttribute("aria-pressed", String(app.isDark()));
   }
 
+  /* Keyboard focus is inside the iframe, so Escape must be passed to the
+     homepage. An open book-details or checkout dialog closes first. */
   function closeParentOnEscape(event) {
     if (event.key === "Escape" && !document.querySelector("dialog[open]")) app.notifyParent("close");
   }

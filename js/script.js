@@ -98,7 +98,7 @@
     }
   }
 
-  /*Rendering ----------------------------------------------------------- */
+  /* 3. Rendering ----------------------------------------------------------- */
   function renderThemeButton() {
     const dark = app.isDark();
     $("themeIcon").textContent = dark ? "☼" : "☾";
@@ -147,7 +147,7 @@
     borrowButton.disabled = borrowed || borrowBlocked;
     if (borrowBlocked) borrowButton.title = "Monthly borrowing limit reached";
 
-    const wishButton = app.button(saved ? "♥" : "♡", function () {
+    const wishButton = app.button(saved ? "♥️" : "♡", function () {
       const nowSaved = app.toggleWishlist(book.id);
       renderAll();
       notice(nowSaved ? "Added to wishlist." : "Removed from wishlist.");
