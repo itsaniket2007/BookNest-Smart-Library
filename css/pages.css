@@ -21,3 +21,253 @@
   flex-wrap: wrap;
   gap: var(--space-2);
 }
+
+.page-nav a,
+.back-link {
+  padding: 7px 11px;
+  border-radius: var(--radius-sm);
+  background: var(--soft);
+  color: var(--link);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.page-nav a[aria-current="page"] {
+  background: var(--purple);
+  color: #fff;
+}
+
+.page-panel {
+  margin-bottom: 17px;
+  padding: 23px;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  background: var(--paper);
+  box-shadow: var(--shadow);
+}
+
+.page-panel h2 {
+  font: 800 1.1rem var(--font-head);
+  margin: 26px 0 10px;
+}
+
+.page-panel > h2:first-child {
+  margin-top: 0;
+}
+
+.page-intro {
+  margin: 6px 0 17px;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.rows {
+  display: grid;
+  gap: 4px;
+}
+
+.book-row {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.book-row:last-child {
+  border-bottom: 0;
+}
+
+.book-row .mini-cover {
+  flex-basis: 57px;
+  width: 57px;
+  height: 76px;
+  padding: 6px;
+  font-size: 0.6875rem;
+}
+
+.book-row-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.book-row h3 {
+  font: 700 var(--text-md) var(--font-head);
+}
+
+.book-row h3 button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--link);
+  font: inherit;
+  text-align: left;
+}
+
+.book-row h3 button:hover {
+  text-decoration: underline;
+}
+
+.row-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.quantity {
+  min-width: 1.5em;
+  text-align: center;
+  font-weight: 700;
+}
+
+.summary-line {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: var(--text-md);
+}
+
+.summary-line.total {
+  font-size: var(--text-lg);
+  font-weight: 800;
+}
+
+.profile-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.profile-avatar {
+  display: grid;
+  place-items: center;
+  width: 96px;
+  height: 96px;
+  overflow: hidden;
+  border: 3px solid var(--line);
+  border-radius: 50%;
+  background: var(--soft);
+  color: var(--link);
+  font: 800 1.6rem var(--font-head);
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-summary {
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--soft);
+}
+
+.profile-summary + .button-row {
+  margin-top: var(--space-4);
+}
+
+.profile-summary .summary-line {
+  border-color: var(--soft-line);
+}
+
+.profile-summary .summary-line:last-child {
+  border-bottom: 0;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin: var(--space-4) 0;
+}
+
+.contact-card {
+  padding: var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--bg);
+}
+
+.contact-card h3 {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-md);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.contact-card p {
+  font-size: var(--text-md);
+}
+
+.contact-card a:not(.btn) {
+  color: var(--link);
+  font: 700 var(--text-lg) var(--font-head);
+  overflow-wrap: anywhere;
+}
+
+.contact-card a:not(.btn):hover {
+  text-decoration: underline;
+}
+
+.contact-card .btn {
+  margin-top: var(--space-3);
+}
+
+.contact-card .value {
+  font: 700 var(--text-lg) var(--font-head);
+}
+
+.faq {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.faq summary {
+  font-size: var(--text-md);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.faq p {
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.page-intro a,
+.faq a {
+  color: var(--link);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.embed-mode.page {
+  padding: 0;
+}
+
+.embed-mode .page-shell {
+  max-width: none;
+}
+
+.embed-mode .page-header {
+  display: none;
+}
+
+.embed-mode .page-panel {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.embed-mode .page-panel + .page-panel {
+  border-top: 1px solid var(--line);
+}
