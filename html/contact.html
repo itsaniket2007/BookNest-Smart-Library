@@ -9,3 +9,73 @@
   <link rel="stylesheet" href="../css/main.css">
   <script src="../js/common.js"></script>
 </head>
+
+<body class="page" data-page="contact">
+  <main class="page-shell">
+    <header class="page-header">
+      <a class="back-link" href="index.html">← BookNest home</a>
+      <nav class="page-nav" aria-label="BookNest pages">
+        <a href="library.html">My Library</a>
+        <a href="borrow.html">Borrow</a>
+        <a href="cart.html">Cart &amp; Wishlist</a>
+        <a href="profile.html">Profile</a>
+        <a href="contact.html" aria-current="page">Contact</a>
+        <a href="feedback.html">Feedback</a>
+      </nav>
+      <button type="button" id="themeButton" class="btn btn-outline btn-sm" aria-pressed="false">☾ Dark mode</button>
+    </header>
+    <section class="page-panel" aria-labelledby="pageTitle">
+      <p class="eyebrow">We're here to help</p>
+      <h1 id="pageTitle">Contact BookNest</h1>
+      <p class="page-intro">Questions about finding a book, managing your library or the borrowing rules? Get in touch, or read the answers below.</p>
+
+      <h2>Contact details</h2>
+      <div class="contact-grid">
+        <div class="contact-card">
+          <h3>Support email</h3>
+          <p><a href="mailto:booknest@bmu.edu.in">booknest@bmu.edu.in</a></p>
+        </div>
+        <div class="contact-card">
+          <h3>Phone</h3>
+          <p><a href="tel:123400006789">1234 0000 6789</a></p>
+        </div>
+      </div>
+      <a class="btn btn-primary" href="mailto:booknest@bmu.edu.in?subject=BookNest%20Support%20Request">Contact support</a>
+
+      <h2>Availability</h2>
+      <div class="contact-card">
+        <h3>Support hours</h3>
+        <p class="value">Monday–Friday, 9:00 AM–5:00 PM</p>
+      </div>
+
+      <h2>Frequently asked questions</h2>
+      <details class="faq">
+        <summary>How many books can I borrow?</summary>
+        <p>You can make up to two borrowing transactions per calendar month. Returning a book early does not restore a borrowing slot.</p>
+      </details>
+      <details class="faq">
+        <summary>When is a borrowed book due?</summary>
+        <p>Each loan is due 30 days after the borrowing date. The Borrow page shows due dates and overdue status.</p>
+      </details>
+      <details class="faq">
+        <summary>Does checkout charge real money?</summary>
+        <p>No. BookNest is a front-end project. Checkout does not process payments or place real orders.</p>
+      </details>
+      <details class="faq">
+        <summary>Where is my reading progress saved?</summary>
+        <p>Progress is saved in your browser's localStorage on this device. It is not synced to a server.</p>
+      </details>
+      <details class="faq">
+        <summary>Where does my feedback go?</summary>
+        <p>Feedback submitted on the <a href="feedback.html">feedback page</a> is saved in this browser only and is not sent to the BookNest team. To reach the team, use the email address or phone number above.</p>
+      </details>
+
+      <h2>Feedback</h2>
+      <p class="page-intro">Have a suggestion or found a problem? Use the feedback form.</p>
+      <a class="btn btn-outline" href="feedback.html">Open the feedback form</a>
+    </section>
+  </main>
+  <script src="../js/pages.js"></script>
+</body>
+
+</html>

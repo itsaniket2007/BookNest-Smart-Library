@@ -9,3 +9,51 @@
   <link rel="stylesheet" href="../css/main.css">
   <script src="../js/common.js"></script>
 </head>
+
+<body class="page" data-page="feedback">
+  <main class="page-shell">
+    <header class="page-header">
+      <a class="back-link" href="index.html">← BookNest home</a>
+      <nav class="page-nav" aria-label="BookNest pages">
+        <a href="library.html">My Library</a>
+        <a href="borrow.html">Borrow</a>
+        <a href="cart.html">Cart &amp; Wishlist</a>
+        <a href="profile.html">Profile</a>
+        <a href="contact.html">Contact</a>
+        <a href="feedback.html" aria-current="page">Feedback</a>
+      </nav>
+      <button type="button" id="themeButton" class="btn btn-outline btn-sm" aria-pressed="false">☾ Dark mode</button>
+    </header>
+    <section class="page-panel" aria-labelledby="pageTitle">
+      <h1 id="pageTitle">Feedback</h1>
+      <p class="page-intro">Share a suggestion, report a problem or request a book. Your feedback is saved in this browser only and is not sent to the BookNest team. To contact the team, see <a href="contact.html">Contact Us</a>.</p>
+      <form id="feedbackForm" class="form" novalidate>
+        <div class="form-field">
+          <label for="name">Your name</label>
+          <input id="name" name="name" required minlength="2" maxlength="100" autocomplete="name" aria-describedby="nameError">
+          <p class="field-error" id="nameError"></p>
+        </div>
+        <div class="form-field">
+          <label for="email">Email address</label>
+          <input id="email" name="email" type="email" required autocomplete="email" aria-describedby="emailError">
+          <p class="field-error" id="emailError"></p>
+        </div>
+        <div class="form-field">
+          <label for="type">Feedback type</label>
+          <select id="type" name="type" required aria-describedby="typeError"><option value="">Choose one</option><option>Suggestion</option><option>Problem</option><option>Book Request</option><option>Borrowing Support</option><option>Other</option></select>
+          <p class="field-error" id="typeError"></p>
+        </div>
+        <div class="form-field">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="5" required minlength="10" maxlength="2000" aria-describedby="messageError"></textarea>
+          <p class="field-error" id="messageError"></p>
+        </div>
+        <div class="button-row"><button type="submit" class="btn btn-primary">Save feedback</button></div>
+      </form>
+      <p id="feedbackStatus" class="form-status" role="status"></p>
+    </section>
+  </main>
+  <script src="../js/pages.js"></script>
+</body>
+
+</html>

@@ -6,3 +6,31 @@
   color: var(--link);
   margin-bottom: var(--space-2);
 }
+
+.section-heading h2,
+.page-panel h1,
+.page-panel .panel-title {
+  font: 800 var(--text-xl) var(--font-head);
+  letter-spacing: -0.5px;
+}
+
+.section-subtitle,
+.muted {
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.section-subtitle {
+  margin-top: var(--space-1);
+}
+
+.brand,
+.mobile-brand {
+  font: 800 1.55rem var(--font-head);
+  letter-spacing: -1px;
+}
+
+.brand span,
+.mobile-brand span {
+  color: var(--purple);
+}

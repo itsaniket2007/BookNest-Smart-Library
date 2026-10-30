@@ -9,3 +9,42 @@
   <link rel="stylesheet" href="../css/main.css">
   <script src="../js/common.js"></script>
 </head>
+
+<body class="page" data-page="library">
+  <main class="page-shell">
+    <header class="page-header">
+      <a class="back-link" href="index.html">← BookNest home</a>
+      <nav class="page-nav" aria-label="BookNest pages">
+        <a href="library.html" aria-current="page">My Library</a>
+        <a href="borrow.html">Borrow</a>
+        <a href="cart.html">Cart &amp; Wishlist</a>
+        <a href="profile.html">Profile</a>
+        <a href="contact.html">Contact</a>
+        <a href="feedback.html">Feedback</a>
+      </nav>
+      <button type="button" id="themeButton" class="btn btn-outline btn-sm" aria-pressed="false">☾ Dark mode</button>
+    </header>
+    <section class="page-panel" aria-labelledby="pageTitle">
+      <h1 id="pageTitle">My library</h1>
+      <p class="page-intro">Track what you are reading. Completing a book updates your monthly reading challenge on the home page.</p>
+      <div class="add-reading">
+        <div class="form-field">
+          <label for="readingBookSelect">Add a book to your reading list</label>
+          <select id="readingBookSelect"></select>
+        </div>
+        <button type="button" id="addReadingBook" class="btn btn-primary">Add book</button>
+      </div>
+      <p id="libraryStatus" class="form-status" role="status"></p>
+      <div class="tabs" role="group" aria-label="Filter by reading status">
+        <button type="button" data-filter="All" aria-pressed="true">All</button>
+        <button type="button" data-filter="Started" aria-pressed="false">Started</button>
+        <button type="button" data-filter="In Progress" aria-pressed="false">In Progress</button>
+        <button type="button" data-filter="Completed" aria-pressed="false">Completed</button>
+      </div>
+      <div id="libraryBooks" class="rows"></div>
+    </section>
+  </main>
+  <script src="../js/pages.js"></script>
+</body>
+
+</html>

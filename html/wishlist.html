@@ -9,3 +9,30 @@
   <link rel="stylesheet" href="../css/main.css">
   <script src="../js/common.js"></script>
 </head>
+
+<body class="page" data-page="wishlist">
+  <main class="page-shell">
+    <header class="page-header">
+      <a class="back-link" href="index.html">← BookNest home</a>
+      <nav class="page-nav" aria-label="BookNest pages">
+        <a href="library.html">My Library</a>
+        <a href="borrow.html">Borrow</a>
+        <a href="cart.html">Cart &amp; Wishlist</a>
+        <a href="profile.html">Profile</a>
+        <a href="contact.html">Contact</a>
+        <a href="feedback.html">Feedback</a>
+      </nav>
+      <button type="button" id="themeButton" class="btn btn-outline btn-sm" aria-pressed="false">☾ Dark mode</button>
+    </header>
+    <section class="page-panel" aria-labelledby="pageTitle">
+      <h1 id="pageTitle">My wishlist</h1>
+      <p class="page-intro">Books you have saved with the heart button. Adding a book to your cart keeps it here.</p>
+      <p id="wishlistStatus" class="form-status" role="status"></p>
+      <div id="wishlistPage" class="rows"></div>
+      <div class="button-row spaced"><a class="btn btn-outline" href="cart.html">Go to cart</a></div>
+    </section>
+  </main>
+  <script src="../js/pages.js"></script>
+</body>
+
+</html>
