@@ -1,238 +1,711 @@
-# BOOKNEST – SMART LIBRARY & BOOK MARKETPLACE
+#  BookNest – Smart Library & Book Marketplace
 
-BookNest is a college Web Programming project: a smart library and book marketplace. This repository keeps the original BookNest HTML, CSS and page layout, and connects that frontend to a Node.js / Express / MongoDB backend.
+**Discover. Borrow. Read. Own.**
 
-Customers can browse the catalogue without an account. Registration, login, cart, wishlist, borrowing, reading progress, checkout, feedback and PDF reading are stored per customer in MongoDB.
+BookNest is a full-stack online library and book marketplace built to make reading and book discovery easier for students and book lovers.
 
-## Features
+The idea behind BookNest is simple: bring the experience of a traditional library and an online bookstore together in one platform. Users can explore books, manage their personal reading lists, borrow books, purchase titles, track their reading progress and access authorized digital books through an integrated PDF reader.
 
-- Original BookNest design (sidebar, catalogue cards, dark mode)
-- Customer registration and login (JWT + HttpOnly cookie)
-- Email verification, forgot/reset password and authenticated password change (SMTP-configured)
-- Independent accounts: carts, wishlists, loans, orders and reading progress are never shared
-- Catalogue search (escaped regular expressions), category filter, sort and API pagination (`?page=1&limit=12`)
-- Server-side cart totals and GST
-- Borrowing rules: two loans per calendar month, 30-day duration, early return does not restore a slot
-- Reading list, progress, monthly reading challenge and immutable per-book monthly completion history
-- Demo checkout (UPI / Card / Cash on Delivery) with simulated payments only
-- Optional Razorpay hosted checkout, signed webhook confirmation and administrator refunds
-- Feedback stored in MongoDB (customers see their own; admin sees all)
-- Admin catalogue and authorized PDF upload
-- PDF.js in-browser reader for **authorized** files only
-- JSON files for catalogue and business rules, synced with `npm run seed`
-- Postman collection and Jest tests
+What started as a frontend web programming project has evolved into a complete web application with a Node.js backend, MongoDB database, authentication system and REST APIs.
 
-## Technology stack
+The project focuses on building a practical application where the frontend and backend work together, user data remains independent and important operations are handled securely on the server.
 
-| Layer | Tools |
-| --- | --- |
-| Frontend | HTML5, CSS3, vanilla JavaScript, PDF.js |
-| Backend | Node.js, Express.js |
-| Database | MongoDB Atlas, Mongoose |
-| Auth | JWT, bcrypt, HttpOnly cookies |
-| Uploads | Multer |
-| Security | Helmet, CORS, express-rate-limit, express-validator, dotenv |
-| Testing | Jest, Supertest, Postman |
-| Dev | Nodemon |
+---
 
-Architecture: MVC + REST, with services for cart totals, entitlements and JSON loading.
+## ✨ What Makes BookNest Different?
 
-## Folder structure
+BookNest is designed around the complete reading experience, rather than simply displaying a collection of books.
 
+- Browse books and explore categories without creating an account.
+- Maintain a personal wishlist and shopping cart.
+- Borrow books with defined monthly borrowing rules.
+- Purchase books through the integrated checkout system.
+- Track reading activity and maintain reading progress.
+- Participate in monthly reading challenges.
+- Read authorized digital books directly in the browser.
+- Manage books, uploaded files and customer feedback through an administrator dashboard.
+
+Every registered customer gets an independent account. Their cart, wishlist, borrowing history, orders and reading activity remain associated with their own account.
+
+---
+
+## 🚀 Features
+
+### 1. Book Discovery and Catalogue
+
+Explore the available book collection through an organised catalogue.
+
+- Browse books without logging in.
+- Search books by relevant information.
+- Filter books by category.
+- Sort catalogue results.
+- View individual book details.
+- Paginated API responses for efficient catalogue loading.
+- Dynamically managed book covers.
+
+### 2. Authentication and Account Management
+
+BookNest includes an authentication system designed around individual customer accounts.
+
+- Customer registration and login.
+- Password hashing using bcrypt.
+- JWT-based authentication.
+- HttpOnly cookie-based browser sessions.
+- Email verification.
+- Forgot password and password reset.
+- Authenticated password changes.
+- Customer profile management.
+- Profile photo uploads.
+- Separate customer and administrator roles.
+
+Ownership checks ensure that customers cannot access another customer's personal information or account data.
+
+### 3. Shopping Cart and Wishlist
+
+Customers can manage their selected books through their personal shopping experience.
+
+**Shopping Cart**
+- Add books to the cart.
+- Update cart quantities.
+- Remove individual items.
+- Clear the cart.
+- Calculate totals on the server.
+- Apply GST calculations.
+
+**Wishlist**
+- Save interesting books for later.
+- View saved books.
+- Remove books from the wishlist.
+
+Cart and wishlist information is stored independently for each customer.
+
+### 4. Book Borrowing System
+
+The borrowing system follows defined business rules rather than allowing unlimited borrowing.
+
+- Borrow available books.
+- Track active and previous loans.
+- Maintain borrowing history.
+- Support book returns.
+- Track loan duration and overdue status.
+
+**Current borrowing rules:**
+- Maximum two loans per calendar month.
+- Standard borrowing duration of 30 days.
+- Returning a book early does not restore the monthly borrowing slot.
+
+These rules are managed through the application's business configuration.
+
+### 5. Reading Progress and Monthly Challenges
+
+BookNest also helps users maintain their reading habits.
+
+- Personal reading list.
+- Save and update reading progress.
+- Continue from the previously saved reading position.
+- Monthly reading challenges.
+- Track reading targets.
+- Maintain monthly completion history.
+
+Reading completion records are stored separately so historical monthly challenge credits are preserved.
+
+### 6. Checkout and Payment Integration
+
+The checkout system supports different payment options.
+
+**Demo Checkout**
+- UPI
+- Card
+- Cash on Delivery
+
+The standard checkout options use simulated payments. They should not be treated as real financial transactions.
+
+**Optional Razorpay Integration**
+
+BookNest also supports an optional Razorpay-hosted checkout integration for test-mode payment processing.
+
+- Create Razorpay checkout orders.
+- Redirect customers to the hosted checkout experience.
+- Verify payment information.
+- Handle signed Razorpay webhooks.
+- Support administrator-authorized refunds.
+
+Card information is handled by Razorpay Checkout and does not pass through BookNest's application.
+
+### 7. Integrated PDF Reader
+
+Users can read authorized digital books without leaving the application.
+
+The reader uses PDF.js and includes:
+
+- Page navigation.
+- Zoom controls.
+- Fullscreen reading.
+- Saved reading position.
+- Access based on purchase or active borrowing entitlement.
+
+PDF files are stored privately and streamed through protected backend routes.
+
+A customer can access an authorized PDF only when they have purchased the book or hold an active, non-overdue borrowing record.
+
+### 8. Administrator Dashboard
+
+The administrative section provides management functionality for the platform.
+
+Administrators can:
+
+- Manage the book catalogue.
+- Add, update and delete books.
+- Upload book covers.
+- Upload PDF documents.
+- Manage PDF distribution authorization.
+- Review customer feedback.
+- Access administrative functionality through role-based authorization.
+- Perform supported refund operations.
+
+### 9. Feedback System
+
+Customers can submit feedback through the application.
+
+- Submit feedback.
+- Store feedback in MongoDB.
+- View personal feedback.
+- Allow administrators to review all customer feedback.
+
+---
+
+## 🛠️ Technology Stack
+
+BookNest uses a traditional frontend with a REST-based backend architecture.
+
+| Component | Technology |
+|---|---|
+| Frontend | HTML5, CSS3, JavaScript |
+| Styling | Custom CSS |
+| Backend | Node.js |
+| Server Framework | Express.js |
+| Database | MongoDB Atlas |
+| ODM | Mongoose |
+| Authentication | JWT |
+| Password Security | bcrypt |
+| Session Management | HttpOnly Cookies |
+| PDF Reading | PDF.js |
+| File Uploads | Multer |
+| Payment Integration | Razorpay |
+| Email Configuration | SMTP |
+| API Testing | Postman |
+| Automated Testing | Jest, Supertest |
+| Security | Helmet, CORS, express-rate-limit |
+| Validation | express-validator |
+| Environment Management | dotenv |
+| Development | Nodemon |
+
+---
+
+## 🏗️ Project Architecture
+
+BookNest follows an MVC-based backend architecture combined with REST APIs and service-layer functionality.
+
+The frontend communicates with the Express backend through HTTP requests. Business operations are processed by the backend, while MongoDB stores application data.
+
+### Application Flow
+
+```text
+                 USER
+                   |
+                   v
+          BOOKNEST FRONTEND
+           HTML / CSS / JS
+                   |
+                   v
+             API LAYER
+          Fetch + REST APIs
+                   |
+                   v
+          EXPRESS.JS SERVER
+                   |
+          -------------------
+          |         |       |
+          v         v       v
+     Middleware  Routes  Controllers
+          |         |       |
+          -------------------
+                   |
+                   v
+              SERVICES
+          ----------------
+          |      |       |
+        Cart   PDF    JSON Data
+       Totals Access  Management
+          ----------------
+                   |
+                   v
+              MONGOOSE
+                   |
+                   v
+              MONGODB
 ```
+
+### Backend Architecture
+
+**Models**
+
+Define database schemas, relationships, validation and indexes.
+
+**Controllers**
+
+Process incoming requests and return appropriate HTTP responses.
+
+**Routes**
+
+Organise the application's REST API endpoints.
+
+**Middleware**
+
+Handle authentication, authorization, validation, file uploads and error processing.
+
+**Services**
+
+Contain reusable business logic, including cart calculations, PDF entitlements and JSON data loading.
+
+---
+
+## 📁 Project Structure
+
+```text
 BookNestProject/
-├── css/                          Original styles
-├── html/                         Original pages plus login, register, orders, admin, reader
-├── js/                           api.js, common.js, pages.js, script.js, reader.js
-├── server/src/
-│   ├── config/                   env.js, db.js
-│   ├── models/                   User, Book, Cart, Wishlist, Borrowing, ReadingProgress, Order, Feedback, Category
-│   ├── controllers/
-│   ├── routes/
-│   ├── middleware/               auth, validation, uploads, errors
-│   ├── services/                 cart, PDF entitlement, JSON data
-│   ├── data/                     books.json, categories.json, businessRules.json, siteContent.json
-│   ├── seed/seed.js
-│   ├── uploads/                  pdfs, covers, profiles, samples (not public static URLs)
-│   ├── app.js
-│   └── server.js
+│
+├── _backup_original_frontend/
+│
+├── css/
+│   └── Stylesheets
+│
+├── html/
+│   ├── Home and catalogue pages
+│   ├── Login and registration pages
+│   ├── Cart and wishlist pages
+│   ├── Library and reading pages
+│   ├── Orders and profile pages
+│   ├── Admin dashboard
+│   └── PDF reader
+│
+├── js/
+│   ├── api.js
+│   ├── common.js
+│   ├── script.js
+│   ├── pages.js
+│   └── reader.js
+│
+├── server/
+│   └── src/
+│       ├── config/
+│       │   ├── env.js
+│       │   └── db.js
+│       │
+│       ├── models/
+│       ├── controllers/
+│       ├── routes/
+│       ├── middleware/
+│       ├── services/
+│       │
+│       ├── data/
+│       │   ├── books.json
+│       │   ├── categories.json
+│       │   ├── businessRules.json
+│       │   └── siteContent.json
+│       │
+│       ├── seed/
+│       │   └── seed.js
+│       │
+│       ├── uploads/
+│       │   ├── pdfs/
+│       │   ├── covers/
+│       │   ├── profiles/
+│       │   └── samples/
+│       │
+│       ├── app.js
+│       └── server.js
+│
 ├── postman/
+│   ├── BookNest.postman_collection.json
+│   └── BookNest.postman_environment.json
+│
 ├── tests/
+│
 ├── .env.example
+├── .gitignore
 ├── package.json
+├── package-lock.json
 ├── README.md
 └── BACKEND_DEMONSTRATION.md
 ```
 
-`_backup_original_frontend/` is a copy of the starting frontend. Do not serve it.
+The `_backup_original_frontend/` directory contains a copy of the starting frontend. It is retained as a reference and is not used by the application.
 
-## Frontend architecture
+---
 
-- `js/api.js` — `fetch` helper with `credentials: "include"`
-- `js/common.js` — shared state; all business actions call REST APIs
-- `js/script.js` — home page catalogue, navigation, auth buttons
-- `js/pages.js` — borrow, cart, wishlist, library, profile, feedback, login, register, admin, orders
-- `js/reader.js` — PDF.js viewer, page/zoom/fullscreen, saved position
-- Dark mode still uses `localStorage` only
+## 🗄️ Database Design
 
-The Express server serves the homepage at `http://localhost:5000`.
+MongoDB Atlas is used as the primary database.
 
-## Backend architecture (MVC)
+The application organises its information into separate collections.
 
-- **Models** — Mongoose schemas with validation, references and indexes
-- **Controllers** — request handlers and HTTP status codes
-- **Routes** — `/api/...` REST endpoints
-- **Middleware** — JWT, roles, ownership, Multer, validators, Helmet, rate limit
-- **Services** — GST/totals, PDF entitlement (purchase or active loan), JSON loaders
+| Collection | Purpose |
+|---|---|
+| Users | Customer and administrator accounts |
+| Books | Book catalogue |
+| Categories | Book categories |
+| Carts | Individual customer carts |
+| Wishlists | Saved books |
+| Borrowings | Borrowing and return records |
+| ReadingProgress | Reading positions and progress |
+| ReadingCompletions | Monthly reading completion history |
+| Orders | Purchase and checkout records |
+| Feedback | Customer feedback |
 
-## REST APIs
+### Data Integrity
 
-| Method | Path | Who |
-| --- | --- | --- |
-| POST | `/api/auth/register` | Public |
-| POST | `/api/auth/login` | Public |
-| GET | `/api/auth/me` | Customer / admin |
-| POST | `/api/auth/logout` | Customer / admin |
-| POST | `/api/auth/verify-email`, `/forgot-password`, `/reset-password`, `/change-password` | Public / owner |
-| GET/PUT | `/api/users/me` | Customer / admin |
-| GET | `/api/users/me/dashboard` | Customer / admin |
-| POST/DELETE | `/api/users/me/photo` | Customer / admin |
-| GET | `/api/books` | Public |
-| GET | `/api/books/:id` | Public |
-| GET | `/api/books/:id/pdf` | Entitled user |
-| POST/PUT/DELETE | `/api/admin/books` | Admin |
-| POST | `/api/admin/books/:id/pdf` | Admin |
-| GET/POST/PATCH/DELETE | `/api/cart...` (including `DELETE /api/cart`) | Owner |
-| GET/POST/DELETE | `/api/wishlist...` | Owner |
-| GET/POST/PATCH | `/api/borrowings...` | Owner |
-| GET/POST/PATCH | `/api/reading...` (including `/challenge`) | Owner |
-| POST/GET | `/api/orders...` | Owner |
-| POST/GET | `/api/feedback...` | Owner / admin |
-| POST | `/api/orders/razorpay`, `/:id/razorpay/verify` | Customer |
-| POST | `/api/webhooks/razorpay` | Razorpay signed webhook |
-| GET | `/api/health` | Public |
+BookNest uses Mongoose schemas, validation, references and database indexes to maintain consistency.
 
-## MongoDB
+Important implementation details include:
 
-Customer data lives in separate collections: users, carts, wishlists, borrowings, readingprogresses, **readingcompletions**, orders, feedback. `readingcompletions` has a unique user-book-month index, preserving historical challenge credit across restarts. Catalogue books and categories are seeded from JSON.
+- Customer-owned records are associated with their respective accounts.
+- Reading completion records have a unique user-book-month index.
+- Catalogue data is managed through JSON seed files.
+- Database seeding uses upserts based on book slugs.
+- Existing customer information is preserved during catalogue updates.
 
-Create a free cluster on [MongoDB Atlas](https://www.mongodb.com/atlas). Use a database user and the `MONGODB_URI` connection string.
+---
 
-## JSON data management (college requirement)
+## 🔌 REST API Overview
 
-Edit these files, then run `npm run seed`:
+The Express backend exposes REST endpoints for the application's main operations.
 
-- `server/src/data/books.json` — title, author, category, price, year, description, cover class, availability, PDF flags
-- `server/src/data/categories.json`
-- `server/src/data/businessRules.json` — borrowing limit, loan days, GST %, reading target, upload limits
-- `server/src/data/siteContent.json`
+### Authentication
 
-Seed uses **upsert by slug**. Changing a book in JSON and re-running seed updates catalogue-managed fields only. Carts, passwords, orders, borrowings, feedback, reading progress and uploaded PDF filenames/authorization audit fields are **not** deleted or overwritten. `js/data.json` is only a valid deprecated compatibility marker; live data is always `server/src/data/`.
+| Method | Endpoint |
+|---|---|
+| POST | `/api/auth/register` |
+| POST | `/api/auth/login` |
+| GET | `/api/auth/me` |
+| POST | `/api/auth/logout` |
+| POST | `/api/auth/verify-email` |
+| POST | `/api/auth/forgot-password` |
+| POST | `/api/auth/reset-password` |
+| POST | `/api/auth/change-password` |
 
-The sixteen supplied titles are in `books.json` with `pdfAuthorized: false` and `pdfAvailable: false`. Copyrighted files are **not** copied into public folders or marked readable.
+### Users and Profiles
 
-A project-generated file, **BookNest Authorized Sample Reader**, is the only PDF enabled for classroom reading.
+| Method | Endpoint |
+|---|---|
+| GET / PUT | `/api/users/me` |
+| GET | `/api/users/me/dashboard` |
+| POST / DELETE | `/api/users/me/photo` |
 
-## Authentication
+### Books and Catalogue
 
-- Passwords hashed with bcrypt
-- JWT in an HttpOnly cookie for the browser
-- The same JWT is returned in JSON so Postman can send `Authorization: Bearer <token>`
-- Roles: `customer` and `admin`
-- Ownership checks on every personal collection
-- Verification and reset tokens are random, expire, and are stored only as SHA-256 hashes
+| Method | Endpoint |
+|---|---|
+| GET | `/api/books` |
+| GET | `/api/books/:id` |
+| GET | `/api/books/:id/pdf` |
 
-## Optional email and Razorpay configuration
+### Administration
 
-`.env.example` documents SMTP and Razorpay values. SMTP sends verification/reset links; without it, development logs a mail preview but does not deliver email. Razorpay is optional: standard UPI/Card/COD checkout remains simulated. To enable live test-mode Razorpay, provide `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`, and `RAZORPAY_WEBHOOK_SECRET`, then configure Razorpay to send signed events to `http(s)://YOUR-HOST/api/webhooks/razorpay`. Card details are handled only by Razorpay Checkout and never pass through BookNest.
+| Method | Endpoint |
+|---|---|
+| POST / PUT / DELETE | `/api/admin/books` |
+| POST | `/api/admin/books/:id/pdf` |
 
-Default admin (created by seed if missing):
+### Customer Operations
 
-- Email: `admin@booknest.local` (or `ADMIN_EMAIL`)
-- Password: `AdminPass123!` (or `ADMIN_PASSWORD`)
+| Functionality | Endpoint |
+|---|---|
+| Cart | `/api/cart...` |
+| Wishlist | `/api/wishlist...` |
+| Borrowing | `/api/borrowings...` |
+| Reading | `/api/reading...` |
+| Orders | `/api/orders...` |
+| Feedback | `/api/feedback...` |
 
-Change these before any public deployment.
+### Payments and Webhooks
 
-## PDF reader and copyright
+| Method | Endpoint |
+|---|---|
+| POST | `/api/orders/razorpay` |
+| POST | `/api/orders/:id/razorpay/verify` |
+| POST | `/api/webhooks/razorpay` |
 
-Supplied third-party PDFs must stay unpublished until you have distribution rights.
+### Health Check
 
-1. Administrator uploads a PDF with `authorizedForDistribution=false` (stored privately; customers cannot read it).
-2. After legal confirmation, the admin sets authorization to true.
-3. Customers may read an authorized PDF only if they **purchased** it or have an **active, non-overdue loan**.
-4. PDFs are streamed from `/api/books/:id/pdf` after those checks. They are not static public URLs.
+```http
+GET /api/health
+```
 
-Development: use the generated sample PDF. PDF.js provides page navigation, zoom and fullscreen. The last page is stored in MongoDB.
+The health endpoint reports the Express application status and MongoDB connection status.
 
-## Book covers and stored uploads
+---
 
-The seeded catalogue uses the original BookNest CSS cover treatment until an administrator uploads a real cover image. Upload a JPG, PNG, WebP, or GIF from **Admin → Catalogue**. The selected-file control will always reset after reload (browser security); the row below it now shows the persisted cover/PDF filename. Uploaded covers are served through the application route, appear on catalogue cards after refresh, and the first uploaded cover is used as a subtle hero backdrop. Copyrighted cover art should only be uploaded where you have permission to use it.
+## ⚙️ Getting Started
 
-## Installation
+Follow these steps to run BookNest on your local machine.
 
-Requires Node.js 18+.
+### Prerequisites
+
+Make sure you have installed:
+
+- Node.js 18 or later.
+- npm.
+- MongoDB Atlas account or a compatible MongoDB instance.
+- Git.
+- Visual Studio Code or another code editor.
+
+### 1. Clone the Repository
 
 ```bash
-cd BookNestProject
+git clone https://github.com/itsaniket2007/BookNest-Smart-Library.git
+```
+
+### 2. Open the Project
+
+```bash
+cd BookNest-Smart-Library
+```
+
+### 3. Install Dependencies
+
+```bash
 npm install
-copy .env.example .env
 ```
 
-On macOS/Linux use `cp .env.example .env`.
+### 4. Configure Environment Variables
 
-## Environment configuration
+Create a local `.env` file using the example configuration.
 
-Edit `.env`:
+**Windows PowerShell:**
 
+```powershell
+Copy-Item .env.example .env
 ```
+
+**macOS/Linux:**
+
+```bash
+cp .env.example .env
+```
+
+Open `.env` and configure your local environment.
+
+At a minimum, configure the following:
+
+```env
 PORT=5000
-MONGODB_URI=mongodb+srv://USER:PASSWORD@CLUSTER.mongodb.net/booknest?retryWrites=true&w=majority
-JWT_SECRET=a-long-random-secret
+
+MONGODB_URI=your_mongodb_connection_string
+
+JWT_SECRET=your_long_random_secret
 ```
 
-`.env` is gitignored. Never commit Atlas passwords.
+SMTP and Razorpay credentials can be configured when those optional integrations are required.
 
-## Database seeding
+Never upload your actual `.env` file or expose database credentials and API secrets publicly.
+
+### 5. Seed the Database
 
 ```bash
 npm run seed
 ```
 
-## Server execution
+This command loads the configured catalogue, categories and business rules into MongoDB.
+
+The seeding process uses upserts so catalogue updates do not unnecessarily overwrite customer transactions or personal data.
+
+Configure your administrator credentials before running the seed process.
+
+### 6. Start the Development Server
 
 ```bash
-npm run dev      # Nodemon
-npm start        # production-style start
+npm run dev
 ```
 
-Open [http://localhost:5000](http://localhost:5000).
+The application should start at:
 
-## Tests
+```text
+http://localhost:5000
+```
+
+Open the address in your browser to access BookNest.
+
+---
+
+## 💳 Payment Configuration
+
+Razorpay integration is optional.
+
+To enable Razorpay test-mode checkout, configure the following environment variables:
+
+```env
+RAZORPAY_KEY_ID=your_razorpay_key_id
+
+RAZORPAY_KEY_SECRET=your_razorpay_key_secret
+
+RAZORPAY_WEBHOOK_SECRET=your_razorpay_webhook_secret
+```
+
+Configure your Razorpay webhook to point to:
+
+```text
+https://YOUR-HOST/api/webhooks/razorpay
+```
+
+During local development, a secure public tunnel can be used to expose the webhook endpoint for testing.
+
+Keep the Razorpay secret and webhook secret private.
+
+Standard UPI, Card and Cash on Delivery checkout options remain simulated unless the optional payment integration is configured.
+
+---
+
+## 📖 PDF Reader and Copyright Protection
+
+BookNest uses a controlled PDF access system.
+
+Digital books are not exposed through unrestricted public file URLs.
+
+The application checks whether a customer has the necessary entitlement before streaming a PDF.
+
+The access process is:
+
+1. An administrator uploads a PDF.
+2. The PDF remains unavailable to customers until distribution authorization is granted.
+3. The system checks the customer's purchase or active borrowing record.
+4. An eligible customer can access the PDF through the protected API endpoint.
+
+Third-party copyrighted PDFs must not be distributed without the appropriate permission.
+
+The project includes an authorised sample PDF for classroom demonstrations.
+
+---
+
+## 🧪 Testing
+
+BookNest includes automated backend testing and API testing resources.
+
+### Automated Tests
 
 ```bash
 npm test
 ```
 
-Jest + Supertest + an in-memory MongoDB. Atlas is not required for tests.
+The project uses:
 
-The health check at `/api/health` reports Express status, MongoDB connection status/ready state and a timestamp. It returns HTTP 503 when MongoDB is unavailable.
+- Jest for test execution.
+- Supertest for HTTP endpoint testing.
+- An in-memory MongoDB instance for database testing.
 
-## Postman testing
+The automated tests do not require a connection to MongoDB Atlas.
 
-1. Import `postman/BookNest.postman_collection.json`
-2. Import `postman/BookNest.postman_environment.json`
-3. Select **BookNest Local**
-4. Run **GET health**, then **Get books** (saves IDs)
-5. Register or log in; tokens are stored automatically
+### Postman Testing
 
-See `BACKEND_DEMONSTRATION.md` for the viva sequence.
+The repository includes a Postman collection and environment.
 
-## Scripts
+To test the APIs:
 
-| Command | Purpose |
-| --- | --- |
-| `npm install` | Install dependencies |
-| `npm run dev` | Start with Nodemon |
-| `npm start` | Start Node |
-| `npm run seed` | Upsert JSON into MongoDB |
-| `npm test` | API tests |
+1. Open Postman.
+2. Import `BookNest.postman_collection.json`.
+3. Import `BookNest.postman_environment.json`.
+4. Select the **BookNest Local** environment.
+5. Execute the health check.
+6. Test book catalogue endpoints.
+7. Register or log in.
+8. Continue testing authenticated endpoints.
+
+Authentication tokens are stored automatically by the configured collection.
+
+---
+
+## 📜 Available npm Commands
+
+| Command | Description |
+|---|---|
+| `npm install` | Install project dependencies |
+| `npm run dev` | Start development server using Nodemon |
+| `npm start` | Start the application |
+| `npm run seed` | Seed catalogue and configuration data |
+| `npm test` | Run automated tests |
+
+---
+
+## 🔐 Security Considerations
+
+Security and data ownership are important parts of the BookNest implementation.
+
+The application includes:
+
+- bcrypt password hashing.
+- JWT authentication.
+- HttpOnly cookies.
+- Role-based access control.
+- Customer ownership verification.
+- Request validation.
+- Helmet security headers.
+- CORS configuration.
+- Rate limiting.
+- Protected file uploads.
+- Private PDF storage.
+- Signed Razorpay webhook verification.
+- Hashed verification and password-reset tokens.
+
+For production deployment, environment variables, administrator credentials, CORS settings, cookie security and upload permissions should be configured appropriately.
+
+---
+
+## 🔮 Future Improvements
+
+BookNest provides a foundation that can be extended further.
+
+Some possible improvements include:
+
+- Real-time notifications for borrowing and orders.
+- Advanced book recommendation system.
+- Improved reading analytics.
+- More detailed administrator reporting.
+- Additional payment gateway support.
+- Cloud-based file storage.
+- Mobile application for Android and iOS.
+- Advanced search and discovery.
+- Deployment with automated CI/CD workflows.
+
+These are potential improvements rather than claims about currently implemented functionality.
+
+---
+
+## 👨‍💻 Developed By
+
+**Aniket Kumar Pathak**
+
+B.Tech – Computer Science and Engineering  
+BML Munjal University
+
+BookNest was developed as a Web Programming project with the aim of applying frontend development, backend engineering, database management, authentication and API integration to a practical application.
+
+The project represents the transition from designing individual webpages to developing a connected full-stack system.
+
+---
+
+## 📌 Project Information
+
+| Detail | Information |
+|---|---|
+| Project | BookNest – Smart Library & Book Marketplace |
+| Project Type | Full-Stack Web Application |
+| Frontend | HTML, CSS, JavaScript |
+| Backend | Node.js, Express.js |
+| Database | MongoDB Atlas |
+| Architecture | MVC + REST API |
+| Repository | [BookNest-Smart-Library](https://github.com/itsaniket2007/BookNest-Smart-Library) |
+| Status | Active Development |
+
+---
+
+**BookNest — Bringing the library and bookstore experience together, one book at a time.** 📚
