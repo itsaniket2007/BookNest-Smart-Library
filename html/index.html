@@ -7,6 +7,7 @@
   <meta name="theme-color" content="#6849e8">
   <title>BookNest — Smart Library &amp; Book Marketplace</title>
   <link rel="stylesheet" href="../css/main.css">
+  <script src="../js/api.js"></script>
   <script src="../js/common.js"></script>
 </head>
 
@@ -46,6 +47,7 @@
           <button type="submit" class="btn btn-primary btn-sm">Search</button>
         </form>
         <div class="top-actions">
+          <div id="authActions" class="auth-actions"></div>
           <button type="button" id="themeButton" class="btn btn-outline" aria-pressed="false">
             <span id="themeIcon" aria-hidden="true">☾</span> <span id="themeLabel" class="theme-label">Dark mode</span>
           </button>
@@ -118,6 +120,13 @@
               <option>Business</option>
               <option>History</option>
             </select>
+            <label for="sortBooks">Sort</label>
+            <select id="sortBooks">
+              <option value="title">Title</option>
+              <option value="price">Price: low to high</option>
+              <option value="price-desc">Price: high to low</option>
+              <option value="year">Newest year</option>
+            </select>
             <span class="book-count" id="bookCount" role="status"></span>
           </div>
           <div class="book-list" id="bookList"></div>
@@ -138,6 +147,8 @@
             <button type="button" class="category-card" data-category="Self Help"><strong>Self Help</strong><small>Grow every day</small></button>
             <button type="button" class="category-card" data-category="Business"><strong>Business</strong><small>Ideas that work</small></button>
             <button type="button" class="category-card" data-category="History"><strong>History</strong><small>Stories of our past</small></button>
+            <button type="button" class="category-card" data-category="Psychology"><strong>Psychology</strong><small>How people think</small></button>
+            <button type="button" class="category-card" data-category="Strategy"><strong>Strategy</strong><small>Power and influence</small></button>
           </div>
         </section>
 

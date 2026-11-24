@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6849e8">
+  <title>My orders | BookNest</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <script src="../js/api.js"></script>
+  <script src="../js/common.js"></script>
+</head>
+
+<body class="page" data-page="orders">
+  <main class="page-shell">
+    <header class="page-header">
+      <a class="back-link" href="index.html">← BookNest home</a>
+      <nav class="page-nav" aria-label="BookNest pages">
+        <a href="cart.html">Cart</a>
+        <a href="orders.html" aria-current="page">Orders</a>
+        <a href="library.html">My Library</a>
+        <a href="profile.html">Profile</a>
+      </nav>
+      <button type="button" id="themeButton" class="btn btn-outline btn-sm" aria-pressed="false">☾ Dark mode</button>
+    </header>
+    <section class="page-panel" aria-labelledby="pageTitle">
+      <h1 id="pageTitle">My orders</h1>
+      <p class="page-intro">Demo checkout only. Totals were calculated on the server. No real card numbers or CVVs are collected.</p>
+      <div id="ordersList" class="rows"></div>
+    </section>
+  </main>
+  <script src="../js/pages.js"></script>
+</body>
+
+</html>

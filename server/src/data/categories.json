@@ -1,0 +1,13 @@
+{
+  "categories": [
+    { "slug": "self-help", "name": "Self Help", "description": "Grow every day" },
+    { "slug": "business", "name": "Business", "description": "Ideas that work" },
+    { "slug": "psychology", "name": "Psychology", "description": "How people think and act" },
+    { "slug": "strategy", "name": "Strategy", "description": "Power, war and influence" },
+    { "slug": "fiction", "name": "Fiction", "description": "Stories and imagination" },
+    { "slug": "programming", "name": "Programming", "description": "Build your skills" },
+    { "slug": "data-science", "name": "Data Science", "description": "Insights and discovery" },
+    { "slug": "history", "name": "History", "description": "Stories of our past" },
+    { "slug": "true-crime", "name": "True Crime", "description": "Reported crime and investigation" }
+  ]
+}

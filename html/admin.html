@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6849e8">
+  <title>Admin | BookNest</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <script src="../js/api.js"></script>
+  <script src="../js/common.js"></script>
+</head>
+
+<body class="page" data-page="admin">
+  <main class="page-shell">
+    <header class="page-header">
+      <a class="back-link" href="index.html">← BookNest home</a>
+      <nav class="page-nav" aria-label="BookNest pages">
+        <a href="admin.html" aria-current="page">Admin</a>
+        <a href="orders.html">Orders</a>
+        <a href="profile.html">Profile</a>
+      </nav>
+      <button type="button" id="themeButton" class="btn btn-outline btn-sm" aria-pressed="false">☾ Dark mode</button>
+    </header>
+    <section class="page-panel" aria-labelledby="pageTitle">
+      <h1 id="pageTitle">Administrator</h1>
+      <p class="page-intro">Add or edit catalogue books, upload covers/PDFs, and confirm distribution rights. File selectors clear after a page reload for browser security; each catalogue row shows the currently stored cover and PDF name instead. Customer-supplied copyrighted PDFs stay unavailable until you authorize them.</p>
+      <p id="adminStatus" class="form-status" role="status"></p>
+      <div id="adminStats" class="admin-stats" aria-label="Catalogue overview" aria-live="polite"></div>
+      <form id="adminBookForm" class="form">
+        <div class="form-field">
+          <label for="title">Title</label>
+          <input id="title" name="title" required>
+        </div>
+        <div class="form-field">
+          <label for="author">Author</label>
+          <input id="author" name="author" required>
+        </div>
+        <div class="form-field">
+          <label for="category">Category</label>
+          <select id="category" name="category">
+            <option>Self Help</option>
+            <option>Psychology</option>
+            <option>Business</option>
+            <option>True Crime</option>
+            <option>Fiction</option>
+            <option>Programming</option>
+            <option>Data Science</option>
+            <option>History</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="price">Price (INR)</label>
+          <input id="price" name="price" type="number" min="0" step="1" required>
+        </div>
+        <div class="form-field">
+          <label for="year">Publication year (optional)</label>
+          <input id="year" name="year" type="number" min="1800" max="2100">
+        </div>
+        <div class="form-field">
+          <label for="description">Description</label>
+          <textarea id="description" name="description" rows="3" required minlength="10"></textarea>
+        </div>
+        <div class="button-row">
+          <button type="submit" class="btn btn-primary">Add book</button>
+        </div>
+      </form>
+    </section>
+    <section class="page-panel">
+      <h2 class="panel-title">Catalogue and PDF authorization</h2>
+      <label class="checkbox-row">
+        <input id="authorizePdf" type="checkbox">
+        Confirm that the next PDF I upload is legally authorized for distribution in this college project
+      </label>
+      <div id="adminBookList" class="rows"></div>
+    </section>
+    <section class="page-panel">
+      <h2 class="panel-title">Customer accounts</h2>
+      <div id="adminUsers" class="rows"></div>
+    </section>
+    <section class="page-panel">
+      <h2 class="panel-title">All feedback</h2>
+      <div id="adminFeedback" class="rows"></div>
+    </section>
+  </main>
+  <script src="../js/pages.js"></script>
+</body>
+
+</html>

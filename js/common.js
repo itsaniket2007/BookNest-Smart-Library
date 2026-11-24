@@ -1,70 +1,38 @@
 (function () {
   "use strict";
-  const KEYS = {
-    cart: "booknestCart",
-    wishlist: "booknestWishlist",
-    borrowed: "booknestBorrowed",
-    reading: "booknestReading",
-    history: "booknestReadingHistory",
-    goal: "booknestGoalData",
-    profile: "booknestProfile",
-    feedback: "booknestFeedback",
-    theme: "booknestDarkMode"
+
+  const KEYS = { theme: "booknestDarkMode" };
+  const STATUS = { STARTED: "Started", IN_PROGRESS: "In Progress", COMPLETED: "Completed" };
+  const api = function () { return window.BookNestAPI; };
+
+  const state = {
+    books: [],
+    user: null,
+    rules: {
+      maxBorrowingPerMonth: 2,
+      borrowingDurationDays: 30,
+      gstPercentage: 5,
+      monthlyReadingTarget: 5,
+      maxMonthlyReadingTarget: 100,
+      maxProfileImageBytes: 2 * 1024 * 1024,
+      maxCartQuantity: 99
+    },
+    site: {},
+    categories: [],
+    cart: { items: [], itemCount: 0, subtotal: 0, gst: 0, total: 0, gstPercentage: 5 },
+    wishlist: [],
+    borrowings: [],
+    usedThisMonth: 0,
+    limitReached: false,
+    reading: [],
+    history: [],
+    challenge: { completed: 0, remaining: 5, target: 5, percent: 0 },
+    orders: [],
+    ready: false
   };
 
-  const BORROW_LIMIT = 2;
-  const LOAN_DAYS = 30;
-  const MAX_QUANTITY = 99;
-  const GST_RATE = 0.05;
-  const DEFAULT_GOAL = 5;
-  const MAX_GOAL = 100;
-
-  const STATUS = { STARTED: "Started", IN_PROGRESS: "In Progress", COMPLETED: "Completed" };
-
-  const BOOKS = Object.freeze([
-    { id: 1, title: "Atomic Habits", author: "James Clear", category: "Self Help", price: 499, year: 2018, cover: "cover-purple", description: "A practical guide to building good habits and breaking bad ones." },
-    { id: 2, title: "The Psychology of Money", author: "Morgan Housel", category: "Business", price: 399, year: 2020, cover: "cover-yellow", description: "Simple lessons about wealth, greed, and happiness through stories." },
-    { id: 3, title: "Thinking, Fast and Slow", author: "Daniel Kahneman", category: "Self Help", price: 550, year: 2011, cover: "cover-blue", description: "An exploration of fast intuitive thinking and slower deliberate reasoning." },
-    { id: 4, title: "Rich Dad Poor Dad", author: "Robert Kiyosaki", category: "Business", price: 350, year: 1997, cover: "cover-dark", description: "Personal finance lessons about assets, liabilities, and financial independence." },
-    { id: 5, title: "The Alchemist", author: "Paulo Coelho", category: "Fiction", price: 299, year: 1988, cover: "cover-orange", description: "A young shepherd follows his dream and discovers his personal legend." },
-    { id: 6, title: "Clean Code", author: "Robert C. Martin", category: "Programming", price: 650, year: 2008, cover: "cover-green", description: "Principles and practices for writing readable, maintainable software." },
-    { id: 7, title: "JavaScript: The Good Parts", author: "Douglas Crockford", category: "Programming", price: 450, year: 2008, cover: "cover-gold", description: "A concise guide to the core features of JavaScript." },
-    { id: 8, title: "Data Science from Scratch", author: "Joel Grus", category: "Data Science", price: 599, year: 2015, cover: "cover-indigo", description: "An introduction to data science using practical Python examples." },
-    { id: 9, title: "A Short History of Nearly Everything", author: "Bill Bryson", category: "History", price: 499, year: 2003, cover: "cover-brown", description: "An accessible journey through science and the history of our world." },
-    { id: 10, title: "The Pragmatic Programmer", author: "Andrew Hunt and David Thomas", category: "Programming", price: 599, year: 1999, cover: "cover-indigo", description: "Timeless pragmatic techniques for improving software development." }
-  ]);
-
-  function getBook(id) {
-    return BOOKS.find(function (book) { return book.id === Number(id); });
-  }
-  function readJSON(key, fallback) {
-    try {
-      const value = JSON.parse(localStorage.getItem(key));
-      return value === null || value === undefined ? fallback : value;
-    } catch (error) {
-      return fallback;
-    }
-  }
-
-  function writeJSON(key, value) {
-    try {
-      localStorage.setItem(key, JSON.stringify(value));
-      return true;
-    } catch (error) {
-      return false;
-    }
-  }
   function money(amount) {
     return "₹" + Number(amount || 0).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  }
-
-  function roundMoney(amount) {
-    return Math.round(amount * 100) / 100;
-  }
-
-  function monthKey(date) {
-    const d = date || new Date();
-    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0");
   }
 
   function formatDate(isoString) {
@@ -73,266 +41,369 @@
     return date.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
   }
 
-  function isValidDate(isoString) {
-    return !Number.isNaN(new Date(isoString).getTime());
-  }
-  function clampQuantity(value) {
-    const quantity = Math.floor(Number(value)) || 1;
-    return Math.min(MAX_QUANTITY, Math.max(1, quantity));
-  }
-  function getCart() {
-    const raw = readJSON(KEYS.cart, []);
-    if (!Array.isArray(raw)) return [];
-    const quantities = new Map();
-    raw.forEach(function (item) {
-      const id = Number(item && item.id);
-      if (!getBook(id)) return;
-      quantities.set(id, clampQuantity((quantities.get(id) || 0) + clampQuantity(item.quantity)));
-    });
-    return Array.from(quantities, function (entry) { return { id: entry[0], quantity: entry[1] }; });
+  function getBook(id) {
+    return state.books.find(function (book) { return book.id === String(id); });
   }
 
-  function saveCart(cart) {
-    return writeJSON(KEYS.cart, cart);
+  function resultOk(message, extra) {
+    return Object.assign({ ok: true, message: message }, extra || {});
   }
 
-  function addToCart(id) {
-    if (!getBook(id)) return false;
-    const cart = getCart();
-    const item = cart.find(function (entry) { return entry.id === Number(id); });
-    if (item) item.quantity = clampQuantity(item.quantity + 1);
-    else cart.push({ id: Number(id), quantity: 1 });
-    return saveCart(cart);
+  function resultFail(error) {
+    return { ok: false, message: error && error.message ? error.message : "Something went wrong." };
   }
 
-  function changeCartQuantity(id, delta) {
-    const cart = getCart();
-    const item = cart.find(function (entry) { return entry.id === Number(id); });
-    if (!item) return false;
-    item.quantity = clampQuantity(item.quantity + delta);
-    return saveCart(cart);
+  function needsAuth(error) {
+    return error && (error.status === 401);
   }
 
-  function removeFromCart(id) {
-    return saveCart(getCart().filter(function (entry) { return entry.id !== Number(id); }));
+  async function loadPublic() {
+    const [booksRes, contentRes] = await Promise.all([
+      api().get("/api/books"),
+      api().get("/api/books/content")
+    ]);
+    state.books = booksRes.books || [];
+    state.rules = Object.assign(state.rules, contentRes.rules || {});
+    state.site = contentRes.site || {};
+    state.categories = contentRes.categories || [];
   }
 
-  function clearCart() {
-    return saveCart([]);
+  async function loadSession() {
+    try {
+      const me = await api().get("/api/auth/me");
+      state.user = me.user;
+    } catch (error) {
+      state.user = null;
+    }
+  }
+
+  async function loadPrivate() {
+    if (!state.user) {
+      state.cart = { items: [], itemCount: 0, subtotal: 0, gst: 0, total: 0, gstPercentage: state.rules.gstPercentage };
+      state.wishlist = [];
+      state.borrowings = [];
+      state.usedThisMonth = 0;
+      state.limitReached = false;
+      state.reading = [];
+      state.history = [];
+      state.challenge = { completed: 0, remaining: state.rules.monthlyReadingTarget, target: state.user && state.user.monthlyReadingTarget || state.rules.monthlyReadingTarget, percent: 0 };
+      state.orders = [];
+      return;
+    }
+    const [cartRes, wishRes, borrowRes, readingRes, orderRes] = await Promise.all([
+      api().get("/api/cart"),
+      api().get("/api/wishlist"),
+      api().get("/api/borrowings"),
+      api().get("/api/reading"),
+      api().get("/api/orders")
+    ]);
+    state.cart = cartRes.cart;
+    state.wishlist = wishRes.wishlist || [];
+    state.borrowings = borrowRes.borrowings || [];
+    state.usedThisMonth = borrowRes.usedThisMonth || 0;
+    state.limitReached = Boolean(borrowRes.limitReached);
+    state.reading = readingRes.reading || [];
+    state.history = readingRes.history || [];
+    state.challenge = readingRes.challenge || state.challenge;
+    state.orders = orderRes.orders || [];
+  }
+
+  async function boot() {
+    await loadPublic();
+    await loadSession();
+    await loadPrivate();
+    state.ready = true;
+    return state;
+  }
+
+  async function refresh() {
+    await loadSession();
+    await loadPublic();
+    await loadPrivate();
+    return state;
+  }
+
+  function requireUser() {
+    if (state.user) return true;
+    return false;
+  }
+
+  async function addToCart(id) {
+    if (!requireUser()) return { ok: false, message: "Please log in to add books to your cart.", auth: true };
+    try {
+      const data = await api().post("/api/cart/items", { bookId: id, quantity: 1 });
+      state.cart = data.cart;
+      return resultOk("Added to cart.");
+    } catch (error) { return resultFail(error); }
+  }
+
+  async function changeCartQuantity(id, delta) {
+    const item = (state.cart.items || []).find(function (entry) { return entry.bookId === String(id); });
+    if (!item) return { ok: false, message: "That book is not in your cart." };
+    try {
+      const data = await api().patch("/api/cart/items/" + id, { quantity: item.quantity + delta });
+      state.cart = data.cart;
+      return resultOk("Cart updated.");
+    } catch (error) { return resultFail(error); }
+  }
+
+  async function removeFromCart(id) {
+    try {
+      const data = await api().del("/api/cart/items/" + id);
+      state.cart = data.cart;
+      return resultOk("Removed from cart.");
+    } catch (error) { return resultFail(error); }
   }
 
   function cartCount() {
-    return getCart().reduce(function (sum, item) { return sum + item.quantity; }, 0);
-  }
-  function cartTotals() {
-    const subtotal = getCart().reduce(function (sum, item) {
-      return sum + getBook(item.id).price * item.quantity;
-    }, 0);
-    const gst = roundMoney(subtotal * GST_RATE);
-    return { subtotal: subtotal, gst: gst, total: roundMoney(subtotal + gst) };
+    return state.cart.itemCount || 0;
   }
 
-  function getWishlist() {
-    const raw = readJSON(KEYS.wishlist, []);
-    if (!Array.isArray(raw)) return [];
-    const ids = raw.map(Number).filter(function (id) { return Boolean(getBook(id)); });
-    return Array.from(new Set(ids));
+  function cartTotals() {
+    return { subtotal: state.cart.subtotal || 0, gst: state.cart.gst || 0, total: state.cart.total || 0 };
+  }
+
+  function getCart() {
+    return (state.cart.items || []).map(function (item) {
+      return { id: item.bookId, quantity: item.quantity, book: item.book };
+    });
   }
 
   function isWishlisted(id) {
-    return getWishlist().includes(Number(id));
-  }
-  function toggleWishlist(id) {
-    const numericId = Number(id);
-    const wishlist = getWishlist();
-    const saved = wishlist.includes(numericId);
-    writeJSON(KEYS.wishlist, saved ? wishlist.filter(function (x) { return x !== numericId; }) : wishlist.concat(numericId));
-    return !saved;
+    return state.wishlist.some(function (book) { return book.id === String(id); });
   }
 
-  function removeFromWishlist(id) {
-    writeJSON(KEYS.wishlist, getWishlist().filter(function (x) { return x !== Number(id); }));
+  async function toggleWishlist(id) {
+    if (!requireUser()) return { ok: false, saved: false, message: "Please log in to use the wishlist.", auth: true };
+    try {
+      if (isWishlisted(id)) {
+        const data = await api().del("/api/wishlist/" + id);
+        state.wishlist = data.wishlist;
+        return { ok: true, saved: false, message: "Removed from wishlist." };
+      }
+      const data = await api().post("/api/wishlist/" + id);
+      state.wishlist = data.wishlist;
+      return { ok: true, saved: true, message: "Added to wishlist." };
+    } catch (error) { return Object.assign(resultFail(error), { saved: isWishlisted(id) }); }
   }
-  function getLoans() {
-    const raw = readJSON(KEYS.borrowed, []);
-    if (!Array.isArray(raw)) return [];
-    return raw.filter(function (loan) {
-      return loan && getBook(loan.id) && isValidDate(loan.borrowedAt) && isValidDate(loan.dueAt);
-    }).map(function (loan) {
-      return { id: Number(loan.id), borrowedAt: loan.borrowedAt, dueAt: loan.dueAt, returnedAt: loan.returnedAt || null };
-    });
+
+  async function removeFromWishlist(id) {
+    try {
+      const data = await api().del("/api/wishlist/" + id);
+      state.wishlist = data.wishlist;
+      return resultOk("Removed from wishlist.");
+    } catch (error) { return resultFail(error); }
+  }
+
+  async function moveWishlistToCart(id) {
+    if (!requireUser()) return { ok: false, message: "Please log in first.", auth: true };
+    try {
+      const data = await api().post("/api/wishlist/" + id + "/to-cart");
+      state.cart = data.cart;
+      return resultOk("Added to cart. It also stays in your wishlist.");
+    } catch (error) { return resultFail(error); }
+  }
+
+  function getWishlist() {
+    return state.wishlist.map(function (book) { return book.id; });
   }
 
   function activeLoans() {
-    return getLoans().filter(function (loan) { return !loan.returnedAt; });
+    return state.borrowings.filter(function (loan) { return !loan.returnedAt; });
   }
 
   function isBorrowed(id) {
-    return activeLoans().some(function (loan) { return loan.id === Number(id); });
+    return activeLoans().some(function (loan) { return loan.bookId === String(id); });
   }
+
   function loansThisMonth() {
-    const current = monthKey();
-    return getLoans().filter(function (loan) { return monthKey(new Date(loan.borrowedAt)) === current; }).length;
+    return state.usedThisMonth;
   }
 
   function borrowLimitReached() {
-    return loansThisMonth() >= BORROW_LIMIT;
+    return state.limitReached;
   }
 
-  function borrowBook(id) {
-    const book = getBook(id);
-    if (!book) return { ok: false, message: "That book is not in the catalogue." };
-    if (isBorrowed(id)) return { ok: false, message: "“" + book.title + "” is already borrowed and has not been returned." };
-    if (borrowLimitReached()) {
-      return { ok: false, message: "Monthly borrowing limit reached. You can borrow only " + BORROW_LIMIT + " books per calendar month, even if you return one early." };
-    }
-    const now = new Date();
-    const due = new Date(now);
-    due.setDate(due.getDate() + LOAN_DAYS);
-    const loans = getLoans();
-    loans.push({ id: book.id, borrowedAt: now.toISOString(), dueAt: due.toISOString(), returnedAt: null });
-    if (!writeJSON(KEYS.borrowed, loans)) return { ok: false, message: "Could not save this loan. Browser storage may be full or blocked." };
-    return { ok: true, message: "“" + book.title + "” borrowed. Due in " + LOAN_DAYS + " days." };
+  async function borrowBook(id) {
+    if (!requireUser()) return { ok: false, message: "Please log in to borrow books.", auth: true };
+    try {
+      const data = await api().post("/api/borrowings", { bookId: id });
+      await loadPrivate();
+      return resultOk(data.message);
+    } catch (error) { return resultFail(error); }
   }
 
-  function returnBook(id) {
-    const loans = getLoans();
-    const loan = loans.find(function (entry) { return entry.id === Number(id) && !entry.returnedAt; });
+  async function returnBook(loanOrBookId) {
+    let loan = state.borrowings.find(function (item) {
+      return item.id === String(loanOrBookId) || (item.bookId === String(loanOrBookId) && !item.returnedAt);
+    });
     if (!loan) return { ok: false, message: "This book is not currently borrowed." };
-    loan.returnedAt = new Date().toISOString();
-    writeJSON(KEYS.borrowed, loans);
-    return { ok: true, message: "Book returned. It still counts towards this month's borrowing limit." };
+    try {
+      const data = await api().patch("/api/borrowings/" + loan.id + "/return");
+      await loadPrivate();
+      return resultOk(data.message);
+    } catch (error) { return resultFail(error); }
   }
 
   function loanDueInfo(loan) {
-    const days = Math.ceil((new Date(loan.dueAt) - new Date()) / 86400000);
-    if (days < 0) return { text: Math.abs(days) + " day(s) overdue", overdue: true };
-    if (days === 0) return { text: "Due today", overdue: false };
-    return { text: days + " day(s) remaining", overdue: false };
+    return { text: loan.dueText, overdue: loan.overdue };
   }
 
-  function getReading() {
-    const raw = readJSON(KEYS.reading, {});
-    const reading = {};
-    if (!raw || typeof raw !== "object" || Array.isArray(raw)) return reading;
-    Object.keys(raw).forEach(function (key) {
-      const entry = raw[key];
-      if (!getBook(key) || !entry || !Object.values(STATUS).includes(entry.status)) return;
-      const progress = Math.min(100, Math.max(0, Number(entry.progress) || 0));
-      reading[Number(key)] = Object.assign({}, entry, { progress: entry.status === STATUS.COMPLETED ? 100 : progress });
+  function readingMap() {
+    const map = {};
+    state.reading.forEach(function (item) {
+      map[item.bookId] = item;
     });
-    return reading;
+    return map;
   }
 
-  function saveReading(reading) {
-    return writeJSON(KEYS.reading, reading);
+  async function addToReading(id) {
+    if (!requireUser()) return { ok: false, message: "Please log in to use your reading list.", auth: true };
+    try {
+      const data = await api().post("/api/reading", { bookId: id });
+      await loadPrivate();
+      return resultOk(data.message);
+    } catch (error) { return resultFail(error); }
   }
 
-  function getHistory() {
-    const raw = readJSON(KEYS.history, []);
-    return Array.isArray(raw) ? raw.filter(function (item) { return item && getBook(item.id) && item.completedMonth; }) : [];
+  async function completeBook(id) {
+    if (!requireUser()) return { ok: false, message: "Please log in first.", auth: true };
+    try {
+      const data = await api().patch("/api/reading/" + id + "/complete");
+      await loadPrivate();
+      return resultOk(data.message);
+    } catch (error) { return resultFail(error); }
   }
 
-  function completedThisMonth() {
-    const current = monthKey();
-    const ids = new Set(getHistory().filter(function (item) { return item.completedMonth === current; }).map(function (item) { return Number(item.id); }));
-    return ids.size;
+  async function setProgress(id, value) {
+    if (!requireUser()) return { ok: false, message: "Please log in first.", auth: true };
+    try {
+      const data = await api().patch("/api/reading/" + id + "/progress", { progress: Number(value) });
+      await loadPrivate();
+      return resultOk(data.message);
+    } catch (error) { return resultFail(error); }
   }
 
-  function addToReading(id) {
-    const book = getBook(id);
-    if (!book) return { ok: false, message: "That book is not in the catalogue." };
-    const reading = getReading();
-    if (reading[book.id]) return { ok: false, message: "“" + book.title + "” is already in your reading list." };
-    reading[book.id] = { status: STATUS.STARTED, progress: 0, startedAt: new Date().toISOString() };
-    saveReading(reading);
-    return { ok: true, message: "“" + book.title + "” added to your reading list as Started." };
-  }
-  function completeBook(id) {
-    const book = getBook(id);
-    if (!book) return { ok: false, message: "That book is not in the catalogue." };
-    const reading = getReading();
-    const entry = reading[book.id];
-    if (entry && entry.status === STATUS.COMPLETED) {
-      return { ok: false, message: "“" + book.title + "” is already marked as completed." };
-    }
-    const completedAt = new Date().toISOString();
-    reading[book.id] = Object.assign({ startedAt: completedAt }, entry, { status: STATUS.COMPLETED, progress: 100, completedAt: completedAt });
-    saveReading(reading);
-
-    const month = monthKey();
-    const history = getHistory();
-    if (!history.some(function (item) { return Number(item.id) === book.id && item.completedMonth === month; })) {
-      history.unshift({ id: book.id, title: book.title, completedAt: completedAt, completedMonth: month });
-      writeJSON(KEYS.history, history);
-    }
-    return { ok: true, message: "“" + book.title + "” completed. Your monthly challenge has been updated." };
+  async function readAgain(id) {
+    if (!requireUser()) return { ok: false, message: "Please log in first.", auth: true };
+    try {
+      const data = await api().patch("/api/reading/" + id + "/restart");
+      await loadPrivate();
+      return resultOk(data.message);
+    } catch (error) { return resultFail(error); }
   }
 
-  function setProgress(id, value) {
-    const book = getBook(id);
-    const progress = Number(value);
-    if (!book) return { ok: false, message: "That book is not in the catalogue." };
-    if (value === "" || value === null || !Number.isInteger(progress) || progress < 0 || progress > 100) {
-      return { ok: false, message: "Enter a whole number from 0 to 100." };
-    }
-    const reading = getReading();
-    const entry = reading[book.id] || { startedAt: new Date().toISOString() };
-    if (entry.status === STATUS.COMPLETED) return { ok: false, message: "This book is already completed. Use “Read again” to restart it." };
-    if (progress >= 100) return completeBook(book.id);
-    reading[book.id] = Object.assign({}, entry, {
-      status: progress > 0 ? STATUS.IN_PROGRESS : STATUS.STARTED,
-      progress: progress,
-      updatedAt: new Date().toISOString()
-    });
-    saveReading(reading);
-    return { ok: true, message: "Reading progress saved (" + progress + "%)." };
-  }
-
-  function readAgain(id) {
-    const book = getBook(id);
-    const reading = getReading();
-    if (!book || !reading[book.id] || reading[book.id].status !== STATUS.COMPLETED) {
-      return { ok: false, message: "Only completed books can be read again." };
-    }
-    reading[book.id] = { status: STATUS.STARTED, progress: 0, startedAt: new Date().toISOString() };
-    saveReading(reading);
-    return { ok: true, message: "“" + book.title + "” is back on your reading list." };
+  async function savePage(id, page, percent) {
+    try {
+      const safePercent = Math.min(99, Number(percent) || 0);
+      await api().patch("/api/reading/" + id + "/progress", { currentPage: page, progress: safePercent });
+      await loadPrivate();
+    } catch (error) { return resultFail(error); }
   }
 
   function getGoalTarget() {
-    const goal = readJSON(KEYS.goal, {});
-    const target = Number(goal && goal.target);
-    return Number.isInteger(target) && target >= 1 && target <= MAX_GOAL ? target : DEFAULT_GOAL;
+    if (state.user && state.user.monthlyReadingTarget) return state.user.monthlyReadingTarget;
+    return state.challenge.target || state.rules.monthlyReadingTarget;
   }
 
-  function setGoalTarget(value) {
-    const target = Number(value);
-    if (value === "" || !Number.isInteger(target) || target < 1 || target > MAX_GOAL) return false;
-    return writeJSON(KEYS.goal, { target: target });
-  }
-
-  function getProfile() {
-    const profile = readJSON(KEYS.profile, {});
-    return profile && typeof profile === "object" && !Array.isArray(profile) ? profile : {};
-  }
-
-  function saveProfile(profile) {
-    return writeJSON(KEYS.profile, profile);
-  }
-
-  function saveFeedback(item) {
-    const list = readJSON(KEYS.feedback, []);
-    const entries = Array.isArray(list) ? list : [];
-    entries.push(Object.assign({}, item, { createdAt: new Date().toISOString() }));
-    return writeJSON(KEYS.feedback, entries);
-  }
-  function isDark() {
+  async function setGoalTarget(value) {
+    if (!requireUser()) return false;
     try {
-      return localStorage.getItem(KEYS.theme) === "yes";
+      const data = await api().put("/api/users/me", { monthlyReadingTarget: Number(value) });
+      state.user = data.user;
+      await loadPrivate();
+      return true;
     } catch (error) {
       return false;
     }
+  }
+
+  async function saveProfile(profile) {
+    try {
+      const data = await api().put("/api/users/me", {
+        firstName: profile.firstName,
+        lastName: profile.lastName,
+        mobile: profile.mobile,
+        address: profile.address,
+        category: profile.category
+      });
+      state.user = data.user;
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  async function saveFeedback(item) {
+    try {
+      await api().post("/api/feedback", item);
+      return true;
+    } catch (error) {
+      error.saved = false;
+      throw error;
+    }
+  }
+
+  async function checkout(paymentMethod) {
+    try {
+      const data = await api().post("/api/orders/checkout", { paymentMethod: paymentMethod });
+      await loadPrivate();
+      return resultOk(data.message, { order: data.order });
+    } catch (error) { return resultFail(error); }
+  }
+
+  function loadRazorpayCheckout() {
+    if (window.Razorpay) return Promise.resolve();
+    return new Promise(function (resolve, reject) {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = resolve;
+      script.onerror = function () { reject(new Error("Razorpay checkout could not be loaded.")); };
+      document.head.append(script);
+    });
+  }
+
+  async function checkoutRazorpay() {
+    try {
+      const created = await api().post("/api/orders/razorpay", {});
+      await loadRazorpayCheckout();
+      const verified = await new Promise(function (resolve, reject) {
+        const checkout = new window.Razorpay(Object.assign({}, created.razorpay, {
+    key: created.razorpay.keyId,
+          handler: function (response) {
+            api().post("/api/orders/" + created.order.id + "/razorpay/verify", response).then(resolve).catch(reject);
+          },
+          modal: { ondismiss: function () { reject(new Error("Razorpay checkout was cancelled. Your cart was not cleared.")); } }
+        }));
+        checkout.open();
+      });
+      await loadPrivate();
+      return resultOk(verified.message, { order: verified.order });
+    } catch (error) { return resultFail(error); }
+  }
+
+  async function login(email, password) {
+    const data = await api().post("/api/auth/login", { email: email, password: password });
+    state.user = data.user;
+    await loadPrivate();
+    return data;
+  }
+
+  async function register(payload) {
+    const data = await api().post("/api/auth/register", payload);
+    state.user = data.user;
+    await loadPrivate();
+    return data;
+  }
+
+  async function logout() {
+    await api().post("/api/auth/logout");
+    state.user = null;
+    await loadPrivate();
+  }
+
+  function isDark() {
+    try { return localStorage.getItem(KEYS.theme) === "yes"; } catch (error) { return false; }
   }
 
   function applyTheme() {
@@ -340,12 +411,7 @@
   }
 
   function toggleTheme() {
-    try {
-      localStorage.setItem(KEYS.theme, isDark() ? "no" : "yes");
-    } catch (error) {
-      document.documentElement.classList.toggle("dark");
-      return;
-    }
+    try { localStorage.setItem(KEYS.theme, isDark() ? "no" : "yes"); } catch (error) { document.documentElement.classList.toggle("dark"); return; }
     applyTheme();
   }
 
@@ -366,12 +432,21 @@
   }
 
   function bookCover(book, mini) {
-    const cover = el("div", "", (mini ? "mini-cover " : "book-cover ") + book.cover);
-    cover.setAttribute("aria-hidden", "true");
+    const cover = el("div", "", (mini ? "mini-cover " : "book-cover ") + (book.cover || "cover-purple"));
+    if (book.coverImageUrl) {
+      const image = document.createElement("img");
+      image.src = book.coverImageUrl + "?v=" + encodeURIComponent(book.coverImageName || book.id || "cover");
+      image.alt = "Cover of " + book.title;
+      image.className = "uploaded-cover-image";
+      image.addEventListener("error", function () { image.remove(); cover.classList.remove("has-uploaded-cover"); });
+      cover.classList.add("has-uploaded-cover");
+      cover.append(image);
+    }
     cover.append(el("span", book.title, "cover-title"));
     if (!mini) cover.append(el("span", book.author, "cover-author"));
     return cover;
   }
+
   function progressForm(book, entry, onResult) {
     const form = el("form", "", "progress-form");
     form.noValidate = true;
@@ -387,7 +462,7 @@
     form.append(input, save);
     form.addEventListener("submit", function (event) {
       event.preventDefault();
-      onResult(setProgress(book.id, input.value));
+      Promise.resolve(setProgress(book.id, input.value)).then(onResult);
     });
     return form;
   }
@@ -395,6 +470,7 @@
   function isEmbedded() {
     return window.parent !== window;
   }
+
   function notifyParent(type, extra) {
     if (!isEmbedded()) return;
     window.parent.postMessage(Object.assign({ namespace: "booknest", type: type }, extra), "*");
@@ -421,6 +497,7 @@
     closeOnBackdropClick(dialog);
     return dialog;
   }
+
   function openBookDetails(id, onChange) {
     const book = getBook(id);
     if (!book) return;
@@ -429,23 +506,22 @@
     const message = el("p", "", "form-status");
     message.setAttribute("role", "status");
 
-    function act(result) {
-      message.textContent = result.message;
-      message.className = "form-status " + (result.ok ? "is-success" : "is-error");
-      if (typeof onChange === "function") onChange();
-      render();
+    function act(resultPromise) {
+      Promise.resolve(resultPromise).then(function (result) {
+        message.textContent = result.message;
+        message.className = "form-status " + (result.ok ? "is-success" : "is-error");
+        if (typeof onChange === "function") onChange();
+        render();
+      });
     }
 
     function render() {
-      const entry = getReading()[book.id];
+      const entry = readingMap()[book.id];
       const status = entry ? entry.status : "";
       const title = el("h2", book.title);
       title.id = "bookDetailsTitle";
       const actions = el("div", "", "dialog-actions");
-      actions.append(button("Add to cart", function () {
-        addToCart(book.id);
-        act({ ok: true, message: "Added to cart." });
-      }, "btn btn-primary btn-sm"));
+      actions.append(button("Add to cart", function () { act(addToCart(book.id)); }, "btn btn-primary btn-sm"));
 
       if (status === STATUS.COMPLETED) {
         actions.append(button("Read again", function () { act(readAgain(book.id)); }));
@@ -459,13 +535,24 @@
         actions.append(started, inProgress, button(STATUS.COMPLETED, function () { act(completeBook(book.id)); }));
       }
 
+      if (book.pdfAvailable) {
+        actions.append(button("Read PDF", function () {
+          window.top.location.href = "/reader.html?id=" + encodeURIComponent(book.id);
+        }, "btn btn-outline btn-sm"));
+      }
+
+      const pdfNote = book.pdfAvailable
+        ? "Authorized PDF available after purchase or an active loan."
+        : "PDF not authorized for distribution yet.";
+
       body.replaceChildren(
         title,
         el("p", "Author: " + book.author),
         el("p", "Category: " + book.category),
-        el("p", "First published: " + book.year),
+        el("p", "First published: " + (book.year || "Not recorded")),
         el("p", "Price: " + money(book.price)),
         el("p", book.description),
+        el("p", pdfNote),
         el("p", status ? "Reading status: " + status : "Reading status: not on your reading list"),
         actions,
         message
@@ -477,19 +564,65 @@
   }
 
   window.BookNest = {
-    KEYS: KEYS, BORROW_LIMIT: BORROW_LIMIT, LOAN_DAYS: LOAN_DAYS, STATUS: STATUS, BOOKS: BOOKS,
-    getBook: getBook, money: money, monthKey: monthKey, formatDate: formatDate,
-    getCart: getCart, addToCart: addToCart, changeCartQuantity: changeCartQuantity,
-    removeFromCart: removeFromCart, clearCart: clearCart, cartCount: cartCount, cartTotals: cartTotals,
-    getWishlist: getWishlist, isWishlisted: isWishlisted, toggleWishlist: toggleWishlist, removeFromWishlist: removeFromWishlist,
-    getLoans: getLoans, activeLoans: activeLoans, isBorrowed: isBorrowed, loansThisMonth: loansThisMonth,
-    borrowLimitReached: borrowLimitReached, borrowBook: borrowBook, returnBook: returnBook, loanDueInfo: loanDueInfo,
-    getReading: getReading, getHistory: getHistory, completedThisMonth: completedThisMonth,
-    addToReading: addToReading, completeBook: completeBook, setProgress: setProgress, readAgain: readAgain,
-    getGoalTarget: getGoalTarget, setGoalTarget: setGoalTarget,
-    getProfile: getProfile, saveProfile: saveProfile, saveFeedback: saveFeedback,
-    isDark: isDark, applyTheme: applyTheme, toggleTheme: toggleTheme,
-    el: el, button: button, bookCover: bookCover, progressForm: progressForm, isEmbedded: isEmbedded, notifyParent: notifyParent,
-    closeOnBackdropClick: closeOnBackdropClick, openBookDetails: openBookDetails
+    KEYS: KEYS,
+    STATUS: STATUS,
+    state: state,
+    boot: boot,
+    refresh: refresh,
+    get BOOKS() { return state.books; },
+    get BORROW_LIMIT() { return state.rules.maxBorrowingPerMonth; },
+    get LOAN_DAYS() { return state.rules.borrowingDurationDays; },
+    getBook: getBook,
+    money: money,
+    formatDate: formatDate,
+    getCart: getCart,
+    addToCart: addToCart,
+    changeCartQuantity: changeCartQuantity,
+    removeFromCart: removeFromCart,
+    cartCount: cartCount,
+    cartTotals: cartTotals,
+    getWishlist: getWishlist,
+    isWishlisted: isWishlisted,
+    toggleWishlist: toggleWishlist,
+    removeFromWishlist: removeFromWishlist,
+    moveWishlistToCart: moveWishlistToCart,
+    getLoans: function () { return state.borrowings; },
+    activeLoans: activeLoans,
+    isBorrowed: isBorrowed,
+    loansThisMonth: loansThisMonth,
+    borrowLimitReached: borrowLimitReached,
+    borrowBook: borrowBook,
+    returnBook: returnBook,
+    loanDueInfo: loanDueInfo,
+    getReading: readingMap,
+    getHistory: function () { return state.history; },
+    completedThisMonth: function () { return state.challenge.completed || 0; },
+    addToReading: addToReading,
+    completeBook: completeBook,
+    setProgress: setProgress,
+    readAgain: readAgain,
+    savePage: savePage,
+    getGoalTarget: getGoalTarget,
+    setGoalTarget: setGoalTarget,
+    getProfile: function () { return state.user || {}; },
+    saveProfile: saveProfile,
+    saveFeedback: saveFeedback,
+    checkout: checkout,
+    checkoutRazorpay: checkoutRazorpay,
+    login: login,
+    register: register,
+    logout: logout,
+    needsAuth: needsAuth,
+    isDark: isDark,
+    applyTheme: applyTheme,
+    toggleTheme: toggleTheme,
+    el: el,
+    button: button,
+    bookCover: bookCover,
+    progressForm: progressForm,
+    isEmbedded: isEmbedded,
+    notifyParent: notifyParent,
+    closeOnBackdropClick: closeOnBackdropClick,
+    openBookDetails: openBookDetails
   };
 }());

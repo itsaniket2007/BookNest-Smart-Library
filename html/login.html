@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6849e8">
+  <title>Log in | BookNest</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <script src="../js/api.js"></script>
+  <script src="../js/common.js"></script>
+</head>
+
+<body class="page" data-page="login">
+  <main class="page-shell">
+    <header class="page-header">
+      <a class="back-link" href="index.html">← BookNest home</a>
+      <nav class="page-nav" aria-label="BookNest pages">
+        <a href="login.html" aria-current="page">Log in</a>
+        <a href="register.html">Register</a>
+        <a href="profile.html">Profile</a>
+        <a href="cart.html">Cart</a>
+      </nav>
+      <button type="button" id="themeButton" class="btn btn-outline btn-sm" aria-pressed="false">☾ Dark mode</button>
+    </header>
+    <section class="page-panel" aria-labelledby="pageTitle">
+      <h1 id="pageTitle">Log in</h1>
+      <p class="page-intro">Use your BookNest account. Sessions are stored in a secure HttpOnly cookie. Each customer only sees their own cart, wishlist, loans and orders.</p>
+      <form id="loginForm" class="form" novalidate>
+        <div class="form-field">
+          <label for="email">Email address</label>
+          <input id="email" name="email" type="email" required autocomplete="username">
+        </div>
+        <div class="form-field">
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" required autocomplete="current-password">
+        </div>
+        <div class="button-row">
+          <button type="submit" class="btn btn-primary">Log in</button>
+          <a class="btn btn-outline" href="register.html">Create account</a>
+        </div>
+      </form>
+      <p><a href="forgot-password.html">Forgot your password?</a></p>
+      <p id="loginStatus" class="form-status" role="status"></p>
+    </section>
+  </main>
+  <script src="../js/pages.js"></script>
+</body>
+
+</html>

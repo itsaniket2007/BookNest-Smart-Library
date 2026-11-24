@@ -1,0 +1,530 @@
+{
+  "info": {
+    "name": "BookNest API",
+    "description": "REST API demonstration for BOOKNEST – SMART LIBRARY & BOOK MARKETPLACE.\n\n1. Select the BookNest Local environment.\n2. Run Health, then Get books (saves sampleBookId).\n3. Register Customer A, then Customer B.\n4. Login as Customer A for cart, wishlist, borrow, reading and checkout.\n5. Login as Customer B to prove isolation.\n6. Login as Admin for catalogue and PDF upload.\n\nThe login requests save JWT tokens. Browser sessions use HttpOnly cookies; Postman uses the Bearer token returned in the JSON body.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "GET health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/health",
+            "description": "Expected 200: { success: true, status: \"ok\" }"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register Customer A",
+          "event": [{ "listen": "test", "script": { "exec": [
+            "if (pm.response.code === 201) {",
+            "  const json = pm.response.json();",
+            "  pm.environment.set('token', json.token);",
+            "}"
+          ], "type": "text/javascript" } }],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"firstName\": \"Alice\",\n  \"lastName\": \"Reader\",\n  \"email\": \"{{customerAEmail}}\",\n  \"mobile\": \"9876543210\",\n  \"password\": \"Pass12345\",\n  \"confirmPassword\": \"Pass12345\"\n}" },
+            "url": "{{baseUrl}}/api/auth/register",
+            "description": "Expected 201. Saves token. Duplicate email later returns 409."
+          }
+        },
+        {
+          "name": "Register Customer B",
+          "event": [{ "listen": "test", "script": { "exec": [
+            "if (pm.response.code === 201) {",
+            "  const json = pm.response.json();",
+            "  pm.environment.set('customerBToken', json.token);",
+            "}"
+          ], "type": "text/javascript" } }],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"firstName\": \"Bob\",\n  \"lastName\": \"Reader\",\n  \"email\": \"{{customerBEmail}}\",\n  \"mobile\": \"9123456780\",\n  \"password\": \"Pass12345\",\n  \"confirmPassword\": \"Pass12345\"\n}" },
+            "url": "{{baseUrl}}/api/auth/register"
+          }
+        },
+        {
+          "name": "Login Customer A",
+          "event": [{ "listen": "test", "script": { "exec": [
+            "const json = pm.response.json();",
+            "if (json.token) pm.environment.set('token', json.token);"
+          ], "type": "text/javascript" } }],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"{{customerAEmail}}\",\n  \"password\": \"Pass12345\"\n}" },
+            "url": "{{baseUrl}}/api/auth/login",
+            "description": "Expected 200. Sets HttpOnly cookie and returns JWT for Postman."
+          }
+        },
+        {
+          "name": "Login Customer B",
+          "event": [{ "listen": "test", "script": { "exec": [
+            "const json = pm.response.json();",
+            "if (json.token) pm.environment.set('customerBToken', json.token);"
+          ], "type": "text/javascript" } }],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"{{customerBEmail}}\",\n  \"password\": \"Pass12345\"\n}" },
+            "url": "{{baseUrl}}/api/auth/login"
+          }
+        },
+        {
+          "name": "Login Admin",
+          "event": [{ "listen": "test", "script": { "exec": [
+            "const json = pm.response.json();",
+            "if (json.token) pm.environment.set('adminToken', json.token);"
+          ], "type": "text/javascript" } }],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"{{adminEmail}}\",\n  \"password\": \"{{adminPassword}}\"\n}" },
+            "url": "{{baseUrl}}/api/auth/login"
+          }
+        },
+        {
+          "name": "Get current customer",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/auth/me"
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/auth/logout",
+            "description": "Clears the HttpOnly cookie. Subsequent /me without a Bearer token returns 401."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get profile",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/users/me"
+          }
+        },
+        {
+          "name": "Update profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"firstName\": \"Alice\",\n  \"lastName\": \"Reader\",\n  \"mobile\": \"9876543210\",\n  \"address\": \"12 Library Lane\",\n  \"category\": \"Self Help\"\n}" },
+            "url": "{{baseUrl}}/api/users/me"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Books",
+      "item": [
+        {
+          "name": "Get books",
+          "event": [{ "listen": "test", "script": { "exec": [
+            "const json = pm.response.json();",
+            "if (json.books && json.books.length) {",
+            "  pm.environment.set('bookId', json.books[0].id);",
+            "  const sample = json.books.find(b => b.slug === 'booknest-authorized-sample-reader');",
+            "  const other = json.books.find(b => b.slug === 'atomic-habits');",
+            "  if (sample) pm.environment.set('sampleBookId', sample.id);",
+            "  if (other) pm.environment.set('otherBookId', other.id);",
+            "}"
+          ], "type": "text/javascript" } }],
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/books",
+            "description": "Public catalogue. Saves bookId, sampleBookId and otherBookId."
+          }
+        },
+        {
+          "name": "Search books",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/books?search=Atomic&sort=title"
+          }
+        },
+        {
+          "name": "Get one book",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/books/{{bookId}}"
+          }
+        },
+        {
+          "name": "Get site content and rules",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/books/content"
+          }
+        },
+        {
+          "name": "Read authorized PDF",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/books/{{sampleBookId}}/pdf",
+            "description": "Requires a purchase or active loan. Unauthorized catalogue PDFs return 403."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cart",
+      "item": [
+        {
+          "name": "Get cart",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/cart"
+          }
+        },
+        {
+          "name": "Add cart item",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"bookId\": \"{{sampleBookId}}\",\n  \"quantity\": 1\n}" },
+            "url": "{{baseUrl}}/api/cart/items"
+          }
+        },
+        {
+          "name": "Update cart quantity",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"quantity\": 2\n}" },
+            "url": "{{baseUrl}}/api/cart/items/{{sampleBookId}}"
+          }
+        },
+        {
+          "name": "Delete cart item",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/cart/items/{{sampleBookId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Wishlist",
+      "item": [
+        {
+          "name": "Get wishlist",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/wishlist"
+          }
+        },
+        {
+          "name": "Add wishlist item",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/wishlist/{{otherBookId}}"
+          }
+        },
+        {
+          "name": "Move wishlist to cart",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/wishlist/{{otherBookId}}/to-cart"
+          }
+        },
+        {
+          "name": "Remove wishlist item",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/wishlist/{{otherBookId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Borrowing",
+      "item": [
+        {
+          "name": "List borrowings",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/borrowings"
+          }
+        },
+        {
+          "name": "Borrow book",
+          "event": [{ "listen": "test", "script": { "exec": [
+            "const json = pm.response.json();",
+            "if (json.borrowing) pm.environment.set('borrowingId', json.borrowing.id);"
+          ], "type": "text/javascript" } }],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"bookId\": \"{{otherBookId}}\"\n}" },
+            "url": "{{baseUrl}}/api/borrowings",
+            "description": "Max two borrowings per calendar month. Returning early does not restore a slot."
+          }
+        },
+        {
+          "name": "Return book",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/borrowings/{{borrowingId}}/return"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reading",
+      "item": [
+        {
+          "name": "Get reading list",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/reading"
+          }
+        },
+        {
+          "name": "Add to reading list",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"bookId\": \"{{sampleBookId}}\"\n}" },
+            "url": "{{baseUrl}}/api/reading"
+          }
+        },
+        {
+          "name": "Update progress",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"progress\": 35,\n  \"currentPage\": 2\n}" },
+            "url": "{{baseUrl}}/api/reading/{{sampleBookId}}/progress"
+          }
+        },
+        {
+          "name": "Complete book",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/reading/{{sampleBookId}}/complete"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Checkout",
+          "event": [{ "listen": "test", "script": { "exec": [
+            "const json = pm.response.json();",
+            "if (json.order) pm.environment.set('mongoOrderId', json.order.id);"
+          ], "type": "text/javascript" } }],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"paymentMethod\": \"UPI\"\n}" },
+            "url": "{{baseUrl}}/api/orders/checkout",
+            "description": "Simulated payment. Do not send card numbers or CVVs. Expected 201 with orderId."
+          }
+        },
+        {
+          "name": "Order history",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/orders"
+          }
+        },
+        {
+          "name": "Order details",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/orders/{{mongoOrderId}}"
+          }
+        },
+        {
+          "name": "Customer B cart (isolation)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{customerBToken}}" }],
+            "url": "{{baseUrl}}/api/cart",
+            "description": "Should be empty while Customer A has items or orders."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Feedback",
+      "item": [
+        {
+          "name": "Submit feedback",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Alice Reader\",\n  \"email\": \"{{customerAEmail}}\",\n  \"type\": \"Suggestion\",\n  \"message\": \"The original BookNest layout is easy to use.\"\n}" },
+            "url": "{{baseUrl}}/api/feedback"
+          }
+        },
+        {
+          "name": "My feedback",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/feedback/mine"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "List users",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": "{{baseUrl}}/api/admin/users"
+          }
+        },
+        {
+          "name": "List all feedback",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": "{{baseUrl}}/api/admin/feedback"
+          }
+        },
+        {
+          "name": "Create book",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"title\": \"Classroom Notes\",\n  \"author\": \"BookNest Team\",\n  \"category\": \"Programming\",\n  \"price\": 49,\n  \"year\": 2026,\n  \"description\": \"Internal notes for the college demonstration.\"\n}" },
+            "url": "{{baseUrl}}/api/admin/books"
+          }
+        },
+        {
+          "name": "Update book",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"price\": 129,\n  \"description\": \"Updated classroom description for the catalogue.\"\n}" },
+            "url": "{{baseUrl}}/api/admin/books/{{bookId}}"
+          }
+        },
+        {
+          "name": "Upload PDF (authorization flag)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "pdf", "type": "file", "src": [] },
+                { "key": "authorizedForDistribution", "type": "text", "value": "false" }
+              ]
+            },
+            "url": "{{baseUrl}}/api/admin/books/{{bookId}}/pdf",
+            "description": "Attach a PDF you are allowed to use. Keep authorizedForDistribution=false unless you have distribution rights. Choose a file in Postman before sending."
+          }
+        },
+        {
+          "name": "Delete book",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": "{{baseUrl}}/api/admin/books/{{bookId}}",
+            "description": "Use a book you created in Create book, not a seeded catalogue title, if you need the catalogue intact."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Completion checks",
+      "item": [
+        { "name": "Dashboard", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/users/me/dashboard", "description": "Expected 200 with counts for the signed-in customer only." } },
+        { "name": "Clear cart", "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/cart", "description": "Expected 200 and an empty server-side cart." } },
+        { "name": "Reading challenge and history", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/reading/challenge", "description": "Expected 200 with this month's challenge and immutable completion history." } },
+        { "name": "Restart reading", "request": { "method": "PATCH", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/reading/{{sampleBookId}}/restart", "description": "Expected 200. Previous monthly completion records remain in history." } },
+        { "name": "Book pagination", "request": { "method": "GET", "url": "{{baseUrl}}/api/books?page=1&limit=12&search=Atomic", "description": "Expected 200 with books, page, limit, total and totalPages." } },
+        { "name": "Upload profile photo", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "body": { "mode": "formdata", "formdata": [{ "key": "photo", "type": "file", "src": [] }] }, "url": "{{baseUrl}}/api/users/me/photo", "description": "Select a JPG, PNG, WebP, or GIF under the configured limit; expected 200." } },
+        { "name": "Delete profile photo", "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/users/me/photo", "description": "Expected 200." } },
+        { "name": "Upload cover image (admin)", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }], "body": { "mode": "formdata", "formdata": [{ "key": "cover", "type": "file", "src": [] }] }, "url": "{{baseUrl}}/api/admin/books/{{bookId}}/cover", "description": "Select a valid image; expected 200." } },
+        { "name": "Authorize PDF (admin)", "request": { "method": "PATCH", "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"authorizedForDistribution\": true\n}" }, "url": "{{baseUrl}}/api/admin/books/{{bookId}}/pdf/authorize", "description": "Expected 200 after a PDF has been uploaded." } },
+        { "name": "Revoke PDF authorization (admin)", "request": { "method": "PATCH", "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"authorizedForDistribution\": false\n}" }, "url": "{{baseUrl}}/api/admin/books/{{bookId}}/pdf/authorize", "description": "Expected 200; customer PDF access is disabled." } }
+      ]
+    },
+    {
+      "name": "Account security and payments",
+      "item": [
+        { "name": "Request password reset", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"email\": \"{{customerAEmail}}\"\n}" }, "url": "{{baseUrl}}/api/auth/forgot-password", "description": "Always returns a generic success response to prevent account enumeration. Use the emailed token in Reset password." } },
+        { "name": "Verify email", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"token\": \"paste-token-from-email\"\n}" }, "url": "{{baseUrl}}/api/auth/verify-email" } },
+        { "name": "Change password", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"currentPassword\": \"Pass12345\",\n  \"newPassword\": \"Changed123\"\n}" }, "url": "{{baseUrl}}/api/auth/change-password" } },
+        { "name": "Create Razorpay checkout", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/orders/razorpay", "description": "Requires RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET. Returns hosted-checkout options; do not send card data to this API." } },
+        { "name": "Admin dashboard", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }], "url": "{{baseUrl}}/api/admin/dashboard" } },
+        { "name": "Refund Razorpay order (admin)", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"amount\": 100\n}" }, "url": "{{baseUrl}}/api/admin/orders/{{mongoOrderId}}/refund", "description": "Omit amount for a full refund. Requires a captured Razorpay payment." } }
+      ]
+    }
+  ]
+}

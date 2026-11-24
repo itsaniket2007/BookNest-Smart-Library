@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6849e8">
+  <title>PDF reader | BookNest</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <script src="../js/api.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+
+<body class="page reader-page" data-page="reader">
+  <main class="page-shell reader-shell">
+    <header class="page-header">
+      <a class="back-link" href="index.html">← BookNest home</a>
+      <h1 id="readerTitle" class="reader-heading">PDF reader</h1>
+      <button type="button" id="themeButton" class="btn btn-outline btn-sm" aria-pressed="false">☾ Dark mode</button>
+    </header>
+    <p id="readerStatus" class="form-status" role="status"></p>
+    <div id="readerToolbar" class="reader-toolbar hidden">
+      <span id="pageLabel">Page 1 of 1</span>
+      <span class="reader-hint">Scroll to read · ↑ ↓ / Page Up / Page Down work too</span>
+      <button type="button" id="zoomOut" class="btn btn-outline btn-sm">Zoom −</button>
+      <button type="button" id="zoomIn" class="btn btn-outline btn-sm">Zoom +</button>
+      <button type="button" id="fullScreen" class="btn btn-outline btn-sm">Distraction-free</button>
+      <span id="progressLabel">0%</span>
+    </div>
+    <div id="readerStage" class="reader-stage hidden" tabindex="0" aria-label="PDF reader. Scroll to read pages.">
+      <div id="readerPages" class="reader-pages"></div>
+    </div>
+  </main>
+  <script src="../js/reader.js"></script>
+</body>
+
+</html>
