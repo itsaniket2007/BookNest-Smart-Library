@@ -1,0 +1,13 @@
+node_modules/
+.env
+*.log
+.DS_Store
+Thumbs.db
+coverage/
+server/src/uploads/pdfs/*
+server/src/uploads/profiles/*
+server/src/uploads/covers/*
+!server/src/uploads/**/.gitkeep
+!server/src/uploads/samples/
+*.zip
+_backup_original_frontend/

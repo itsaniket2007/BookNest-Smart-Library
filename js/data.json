@@ -1,0 +1,5 @@
+{
+  "deprecated": true,
+  "message": "Legacy frontend data file retained only for compatibility. The live catalogue and business rules are server/src/data/*.json and are exposed through the BookNest API.",
+  "books": []
+}

@@ -7,6 +7,7 @@
   <meta name="theme-color" content="#6849e8">
   <title>Feedback | BookNest</title>
   <link rel="stylesheet" href="../css/main.css">
+  <script src="../js/api.js"></script>
   <script src="../js/common.js"></script>
 </head>
 
@@ -26,7 +27,7 @@
     </header>
     <section class="page-panel" aria-labelledby="pageTitle">
       <h1 id="pageTitle">Feedback</h1>
-      <p class="page-intro">Share a suggestion, report a problem or request a book. Your feedback is saved in this browser only and is not sent to the BookNest team. To contact the team, see <a href="contact.html">Contact Us</a>.</p>
+      <p class="page-intro">Share a suggestion, report a problem or request a book. Signed-in customers can submit feedback, which is stored in MongoDB. You will only see your own submissions. To contact the team, see <a href="contact.html">Contact Us</a>.</p>
       <form id="feedbackForm" class="form" novalidate>
         <div class="form-field">
           <label for="name">Your name</label>
@@ -51,6 +52,10 @@
         <div class="button-row"><button type="submit" class="btn btn-primary">Save feedback</button></div>
       </form>
       <p id="feedbackStatus" class="form-status" role="status"></p>
+    </section>
+    <section class="page-panel" aria-labelledby="myFeedbackTitle">
+      <h2 id="myFeedbackTitle" class="panel-title">Your submissions</h2>
+      <div id="myFeedback" class="rows"></div>
     </section>
   </main>
   <script src="../js/pages.js"></script>

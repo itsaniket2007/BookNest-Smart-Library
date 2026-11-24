@@ -1,0 +1,11 @@
+{
+  "siteName": "BookNest",
+  "tagline": "Smart Library & Book Marketplace",
+  "heroTitle": "Your Next Favourite Book Awaits.",
+  "heroSubtitle": "Discover new books, track your reading progress, and keep your personal library organised in one place.",
+  "supportEmail": "booknest@bmu.edu.in",
+  "supportPhone": "1234 0000 6789",
+  "supportHours": "Monday–Friday, 9:00 AM–5:00 PM",
+  "checkoutDisclaimer": "Demo checkout only. No real payment is collected or processed. Card numbers and CVVs are never requested or stored.",
+  "pdfCopyrightNotice": "Customer-facing PDF reading is enabled only after an administrator confirms that a file is legally authorized for distribution. Supplied third-party PDFs are not published automatically."
+}

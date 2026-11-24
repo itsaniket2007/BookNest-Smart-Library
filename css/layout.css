@@ -207,3 +207,15 @@
   gap: 10px;
   margin-left: auto;
 }
+
+.auth-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.auth-name {
+  font-weight: 700;
+  color: var(--ink);
+}

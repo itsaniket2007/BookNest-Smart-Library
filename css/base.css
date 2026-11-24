@@ -125,6 +125,7 @@ p {
 .cover-gold   { --cover-from: #e2cb7a; --cover-to: #967a27; --cover-ink: #393019; }
 .cover-indigo { --cover-from: #5068b8; --cover-to: #2f437f; }
 .cover-brown  { --cover-from: #96654a; --cover-to: #5c3d30; }
+.cover-mint   { --cover-from: #5aa88a; --cover-to: #2f6f5c; }
 
 :focus-visible {
   outline: 3px solid #8c78ff;

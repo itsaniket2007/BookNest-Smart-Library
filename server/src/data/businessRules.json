@@ -1,0 +1,16 @@
+{
+  "maxBorrowingPerMonth": 2,
+  "borrowingDurationDays": 30,
+  "gstPercentage": 5,
+  "monthlyReadingTarget": 5,
+  "maxMonthlyReadingTarget": 100,
+  "maxProfileImageBytes": 2097152,
+  "maxCoverImageBytes": 2097152,
+  "maxPdfBytes": 26214400,
+  "maxCartQuantity": 99,
+  "allowedImageTypes": ["image/jpeg", "image/png", "image/webp", "image/gif"],
+  "currency": "INR",
+  "currencySymbol": "₹",
+  "defaultPaymentMode": "simulated",
+  "razorpayOptional": true
+}

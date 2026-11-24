@@ -9,9 +9,15 @@
     "wishlist.html": "My Wishlist",
     "profile.html": "My Profile",
     "contact.html": "Contact Us",
-    "feedback.html": "Feedback"
+    "feedback.html": "Feedback",
+    "login.html": "Log in",
+    "register.html": "Create account",
+    "forgot-password.html": "Forgot password",
+    "reset-password.html": "Reset password",
+    "verify-email.html": "Verify email",
+    "orders.html": "My orders",
+    "admin.html": "Admin"
   };
-  const WATCHED_KEYS = Object.values(app.KEYS);
   const DATA_AND_TECH = ["Data Science", "Programming"];
   const DEFAULT_VISIBLE_BOOKS = 5;
 
@@ -33,9 +39,10 @@
     pageModalTitle: $("pageModalTitle")
   };
 
-  let showAllBooks = false;
+  let showAllBooks = new URLSearchParams(window.location.search).get("catalogue") === "all";
   let noticeTimer = null;
   let modalOpener = null;
+
   function notice(message) {
     refs.notice.textContent = message;
     refs.notice.classList.add("show");
@@ -85,11 +92,12 @@
   function handleFrameMessage(event) {
     const data = event.data;
     if (event.source !== refs.pageFrame.contentWindow || !data || data.namespace !== "booknest") return;
-    if (data.type === "refresh") renderAll();
+    if (data.type === "refresh") app.refresh().then(renderAll);
     if (data.type === "close") refs.pageModal.close();
+    if (data.type === "auth-changed") app.refresh().then(function () { renderAuth(); renderAll(); });
     if (data.type === "navigate" && typeof data.path === "string") {
       const parts = data.path.split("#");
-      if (parts[0] === "index.html") {
+      if (parts[0] === "index.html" || parts[0] === "/") {
         refs.pageModal.close();
         if (parts[1]) scrollToSection(parts[1]);
       } else {
@@ -98,7 +106,6 @@
     }
   }
 
-  /* 3. Rendering ----------------------------------------------------------- */
   function renderThemeButton() {
     const dark = app.isDark();
     $("themeIcon").textContent = dark ? "☼" : "☾";
@@ -106,14 +113,67 @@
     $("themeButton").setAttribute("aria-pressed", String(dark));
   }
 
+  function renderAuth() {
+    const host = $("authActions");
+    if (!host) return;
+    host.replaceChildren();
+    const user = app.state.user;
+    if (!user) {
+      host.append(
+        app.button("Log in", function () { openPage("login.html"); }, "btn btn-outline btn-sm"),
+        app.button("Register", function () { openPage("register.html"); }, "btn btn-primary btn-sm")
+      );
+      return;
+    }
+    host.append(app.el("span", user.firstName, "auth-name"));
+    host.append(app.button("Profile", function () { openPage("profile.html"); }, "btn btn-outline btn-sm"));
+    host.append(app.button("Orders", function () { openPage("orders.html"); }, "btn btn-outline btn-sm"));
+    if (user.role === "admin") {
+      host.append(app.button("Admin", function () { openPage("admin.html"); }, "btn btn-soft btn-sm"));
+    }
+    host.append(app.button("Log out", function () {
+      app.logout().then(function () {
+        renderAuth();
+        renderAll();
+        notice("You have logged out.");
+      });
+    }, "btn btn-outline btn-sm"));
+  }
+
   function renderHeroShelf() {
     const shelf = $("heroShelf");
+    const hero = document.querySelector(".hero");
+    const featuredWithCover = app.BOOKS.find(function (book) { return book.hasCoverImage && book.coverImageUrl; });
+    if (hero && featuredWithCover) {
+      hero.classList.add("has-featured-cover");
+      hero.style.setProperty("--featured-cover", "url('" + featuredWithCover.coverImageUrl.replace(/'/g, "%27") + "')");
+    } else if (hero) {
+      hero.classList.remove("has-featured-cover");
+      hero.style.removeProperty("--featured-cover");
+    }
+    shelf.replaceChildren();
     app.BOOKS.slice(0, 3).forEach(function (book) {
       const item = app.button("", function () { app.openBookDetails(book.id, renderAll); }, "hero-book");
       item.setAttribute("aria-label", "View details: " + book.title);
       item.append(app.bookCover(book));
       shelf.append(item);
     });
+  }
+
+  function fillCategories() {
+    const select = refs.categoryFilter;
+    const current = select.value || "All";
+    const names = ["All", "Data and Technology"].concat(
+      app.state.categories.map(function (item) { return item.name || item; })
+    );
+    const unique = Array.from(new Set(names));
+    select.replaceChildren();
+    unique.forEach(function (name) {
+      const option = app.el("option", name);
+      option.value = name;
+      select.append(option);
+    });
+    select.value = unique.indexOf(current) >= 0 ? current : "All";
   }
 
   function matchesCategory(book, category) {
@@ -125,10 +185,18 @@
   function filteredBooks() {
     const query = refs.searchInput.value.trim().toLowerCase();
     const category = refs.categoryFilter.value;
-    return app.BOOKS.filter(function (book) {
+    const sort = ($("sortBooks") && $("sortBooks").value) || "title";
+    const found = app.BOOKS.filter(function (book) {
       const text = (book.title + " " + book.author + " " + book.category).toLowerCase();
       return text.includes(query) && matchesCategory(book, category);
     });
+    found.sort(function (a, b) {
+      if (sort === "price") return a.price - b.price;
+      if (sort === "price-desc") return b.price - a.price;
+      if (sort === "year") return (b.year || 0) - (a.year || 0);
+      return a.title.localeCompare(b.title);
+    });
+    return found;
   }
 
   function bookCard(book) {
@@ -147,24 +215,32 @@
     borrowButton.disabled = borrowed || borrowBlocked;
     if (borrowBlocked) borrowButton.title = "Monthly borrowing limit reached";
 
-    const wishButton = app.button(saved ? "♥️" : "♡", function () {
-      const nowSaved = app.toggleWishlist(book.id);
-      renderAll();
-      notice(nowSaved ? "Added to wishlist." : "Removed from wishlist.");
+    const wishButton = app.button(saved ? "♥" : "♡", function () {
+      app.toggleWishlist(book.id).then(function (result) {
+        renderAll();
+        notice(result.message);
+        if (result.auth) openPage("login.html");
+      });
     }, "btn btn-soft btn-sm wish-button" + (saved ? " is-saved" : ""));
     wishButton.setAttribute("aria-pressed", String(saved));
     wishButton.setAttribute("aria-label", (saved ? "Remove from wishlist: " : "Add to wishlist: ") + book.title);
 
     const cartButton = app.button("Add to Cart", function () {
-      app.addToCart(book.id);
-      renderAll();
-      notice("“" + book.title + "” added to cart.");
+      app.addToCart(book.id).then(function (result) {
+        renderAll();
+        notice(result.message);
+        if (result.auth) openPage("login.html");
+      });
     }, "btn btn-primary btn-sm");
 
     const buttons = create("div", "book-buttons");
     buttons.append(cartButton, borrowButton, wishButton);
+    if (book.pdfAvailable) {
+      buttons.append(app.button("Read", function () { window.location.href = "/reader.html?id=" + encodeURIComponent(book.id); }, "btn btn-outline btn-sm"));
+    }
     const info = create("div", "book-info");
     info.append(app.el("span", app.money(book.price), "book-price"));
+    if (book.pdfAvailable) info.append(app.el("span", "PDF ready", "status-badge"));
     card.append(cover, title, app.el("p", book.author + " · " + book.category, "book-author"), info, buttons);
     return card;
   }
@@ -181,12 +257,16 @@
   function renderBorrowed() {
     const host = $("borrowedBooks");
     const loans = app.activeLoans();
+    if (!app.state.user) {
+      host.replaceChildren(emptyState("Log in to borrow books and see your loans.", "Log in", function () { openPage("login.html"); }));
+      return;
+    }
     if (!loans.length) {
       host.replaceChildren(emptyState("No borrowed books yet. Browse the catalogue to borrow one.", "Browse books", function () { scrollToSection("books"); }));
       return;
     }
     host.replaceChildren.apply(host, loans.map(function (loan) {
-      const book = app.getBook(loan.id);
+      const book = loan.book || app.getBook(loan.bookId);
       const due = app.loanDueInfo(loan);
       const content = create("div", "personal-card-content");
       content.append(
@@ -218,7 +298,7 @@
       return;
     }
     host.replaceChildren.apply(host, ids.map(function (id) {
-      const book = app.getBook(id);
+      const book = app.getBook(id) || reading[id].book;
       const entry = reading[id];
       const bar = create("div", "progress");
       const fill = create("span");
@@ -252,7 +332,7 @@
       return;
     }
     host.replaceChildren.apply(host, ids.map(function (id) {
-      const book = app.getBook(id);
+      const book = app.getBook(id) || reading[id].book;
       const content = create("div", "personal-card-content");
       content.append(
         app.el("h3", book.title),
@@ -270,7 +350,7 @@
   function renderChallenge() {
     const count = app.completedThisMonth();
     const target = app.getGoalTarget();
-    const percent = Math.min(100, Math.round((count / target) * 100));
+    const percent = Math.min(100, Math.round((count / target) * 100) || 0);
     const remaining = Math.max(0, target - count);
 
     $("challengeCompleted").textContent = count;
@@ -290,7 +370,8 @@
 
     const reading = app.getReading();
     const chips = Object.keys(reading).map(function (id) {
-      return app.button(app.getBook(id).title + " · " + reading[id].status, function () { openPage("library.html"); }, "btn btn-outline btn-sm");
+      const book = app.getBook(id) || reading[id].book;
+      return app.button((book && book.title) + " · " + reading[id].status, function () { openPage("library.html"); }, "btn btn-outline btn-sm");
     });
     $("challengeBooks").replaceChildren.apply($("challengeBooks"), chips);
   }
@@ -304,18 +385,24 @@
 
   function renderAll() {
     refs.cartCount.textContent = app.cartCount();
+    fillCategories();
     renderCatalogue();
     renderBorrowed();
     renderCurrentlyReading();
     renderCompleted();
     renderChallenge();
   }
+
   function create(tag, className) {
     return app.el(tag, "", className);
   }
-  function runAction(result) {
-    renderAll();
-    notice(result.message);
+
+  function runAction(resultPromise) {
+    Promise.resolve(resultPromise).then(function (result) {
+      renderAll();
+      notice(result.message);
+      if (result.auth) openPage("login.html");
+    });
   }
 
   function showAllAndRender() {
@@ -331,10 +418,9 @@
     });
     refs.searchInput.addEventListener("input", showAllAndRender);
     refs.categoryFilter.addEventListener("change", showAllAndRender);
+    if ($("sortBooks")) $("sortBooks").addEventListener("change", showAllAndRender);
     $("showAllButton").addEventListener("click", function () {
-      refs.categoryFilter.value = "All";
-      refs.searchInput.value = "";
-      showAllAndRender();
+      window.open("/?catalogue=all#books", "_blank", "noopener");
     });
     document.querySelectorAll("[data-category]").forEach(function (card) {
       card.addEventListener("click", function () {
@@ -399,13 +485,16 @@
     $("cancelGoalButton").addEventListener("click", function () { toggleEditing(false); });
     form.addEventListener("submit", function (event) {
       event.preventDefault();
-      if (!app.setGoalTarget(input.value)) {
-        status.textContent = "Enter a whole number from 1 to 100.";
-        return;
-      }
-      toggleEditing(false);
-      renderChallenge();
-      notice("Monthly reading goal saved.");
+      app.setGoalTarget(input.value).then(function (ok) {
+        if (!ok) {
+          status.textContent = app.state.user ? "Enter a whole number from 1 to 100." : "Log in to save a monthly goal.";
+          if (!app.state.user) openPage("login.html");
+          return;
+        }
+        toggleEditing(false);
+        renderChallenge();
+        notice("Monthly reading goal saved.");
+      });
     });
   }
 
@@ -414,22 +503,23 @@
       app.toggleTheme();
       renderThemeButton();
     });
-    window.addEventListener("storage", function (event) {
-      if (event.key !== null && !WATCHED_KEYS.includes(event.key)) return;
-      app.applyTheme();
-      renderThemeButton();
-      renderAll();
-    });
   }
+
   function init() {
     renderThemeButton();
-    renderHeroShelf();
     bindCatalogueControls();
     bindNavigation();
     bindPageDialog();
     bindGoalForm();
     bindThemeAndStorage();
-    renderAll();
+    app.boot().then(function () {
+      renderAuth();
+      renderHeroShelf();
+      renderAll();
+      if (showAllBooks) setTimeout(function () { scrollToSection("books"); }, 0);
+    }).catch(function () {
+      notice("Could not reach the BookNest server. Start it with npm run dev.");
+    });
   }
 
   init();

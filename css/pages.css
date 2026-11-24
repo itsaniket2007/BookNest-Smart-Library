@@ -66,6 +66,40 @@
   gap: 4px;
 }
 
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+  margin: 18px 0 24px;
+}
+
+.admin-stat {
+  display: grid;
+  gap: 3px;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: #f1edff;
+}
+
+.admin-stat strong {
+  color: #563bc1;
+  font: 800 1.4rem / 1 var(--font-head);
+}
+
+:root.dark .admin-stat {
+  background: #332b5d;
+}
+
+:root.dark .admin-stat strong {
+  color: #d6ceff;
+}
+
+.admin-stat span {
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+
 .book-row {
   display: flex;
   align-items: center;
@@ -114,6 +148,13 @@
   flex-wrap: wrap;
   gap: 6px;
   margin-top: 8px;
+}
+
+.file-status {
+  margin: 9px 0 0;
+  color: var(--muted);
+  font-size: var(--text-xs);
+  overflow-wrap: anywhere;
 }
 
 .quantity {
@@ -270,4 +311,72 @@
 
 .embed-mode .page-panel + .page-panel {
   border-top: 1px solid var(--line);
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0 0 16px;
+  font-size: var(--text-sm);
+}
+
+.reader-heading {
+  flex: 1;
+  margin: 0;
+  font: 800 1.1rem var(--font-head);
+}
+
+.reader-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.reader-hint {
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+
+.reader-stage {
+  overflow: auto;
+  height: calc(100vh - 180px);
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #34343b;
+  scroll-behavior: smooth;
+  cursor: ns-resize;
+}
+
+.reader-pages {
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+}
+
+.pdf-page-slot {
+  display: grid;
+  place-items: center;
+  max-width: 100%;
+  background: #fff;
+  box-shadow: 0 3px 18px rgba(0, 0, 0, 0.35);
+}
+
+.pdf-page-canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  background: #fff;
+}
+
+.reader-stage:fullscreen {
+  width: 100%;
+  height: 100%;
+  padding: 28px;
+  border: 0;
+  border-radius: 0;
+  background: #1c1c21;
 }
