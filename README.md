@@ -12,7 +12,7 @@ The project focuses on building a practical application where the frontend and b
 
 ---
 
-## ✨ What Makes BookNest Different?
+##  What Makes BookNest Different?
 
 BookNest is designed around the complete reading experience, rather than simply displaying a collection of books.
 
@@ -29,7 +29,7 @@ Every registered customer gets an independent account. Their cart, wishlist, bor
 
 ---
 
-## 🚀 Features
+##  Features
 
 ### 1. Book Discovery and Catalogue
 
@@ -174,7 +174,7 @@ Customers can submit feedback through the application.
 
 ---
 
-## 🛠️ Technology Stack
+##  Technology Stack
 
 BookNest uses a traditional frontend with a REST-based backend architecture.
 
